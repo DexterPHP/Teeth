@@ -26,11 +26,33 @@
             </div>
         @endif
         <div class="row">
+            <div class="col-md-12 text-right">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title float-right"> الطبيب</h3>
+
+                    </div>
+                    <div class="card-body text-right">
+                        <div class="form-group">
+
+                            <select class="form-control custom-select text-right" name="doctors_id" id="e1" required>
+                                <option selected disabled>الرجاء الإختيار</option>
+                                @foreach($doctors as $doctor)
+                                    <option  value="{{$doctor->id}}">{{$doctor->doctor_fname}}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+
+
             <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title text-right">معلومات أساسية</h3>
-
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fas fa-minus"></i></button>
@@ -42,20 +64,20 @@
                             <input type="text" value="{{session('_old_input')['username']}}" name="username" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
-                            <label for="inputName">أسم الأب </label>
-                            <input type="text" value="{{session('_old_input')['user_middel']}}" name="user_middel" id="inputName" class="form-control text-right" required>
-                        </div>
-                        <div class="form-group">
                             <label for="inputName"> الكنية</label>
                             <input type="text" value="{{session('_old_input')['lastname']}}" name="lastname" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
-                            <label for="inputName">العمر</label>
-                            <input type="number" value="{{session('_old_input')['user_age']}}" min="3" name="user_age" id="inputName" class="form-control text-right" required>
+                            <label for="inputName">أسم الأب </label>
+                            <input type="text" value="{{session('_old_input')['user_middel']}}" name="user_middel" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
-                            <input type="date"  value="{{session('_old_input')['birthday']}}" name="birthday" id="inputClientCompany" class="form-control" required>
+                            <input type="date"  value="{{session('_old_input')['birthday']}}" name="birthday" id="birthday" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputName">العمر</label>
+                            <input disabled type="text" value="{{session('_old_input')['user_age']}}" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputClientCompany">رقم بطاقة المريض إن وجدت</label>
@@ -156,5 +178,29 @@
 @section('js')
     <script>
         $(document).ready(function() { $("#e1").select2(); });
+        function getAge(dateString) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age+1;
+        }
+        function format(inputDate) {
+            var date = new Date(inputDate);
+            if (!isNaN(date.getTime())) {
+                // Months use 0 index.
+                return date.getFullYear() + 1 + '/' + date.getDate() + '/' + date.getMonth();
+            }
+        }
+        $(function() {
+            $('#birthday').on('change', function () {
+                var birth = $('#birthday').val();
+                var Newbirth = format(birth);
+                $('#age:disabled').val(getAge(Newbirth));
+            });
+        });
     </script>
 @stop
