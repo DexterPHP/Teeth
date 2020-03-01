@@ -26,6 +26,7 @@ class RolesSeeder extends Seeder
                 'create-patients'   => true,
                 'create-lab'        => true,
                 'create-record'     => true,
+                'create-diseases'   => true,
                 // [ Edit Roles ]
                 'edit-user'       => true,
                 'edit-center'     => true,
@@ -35,6 +36,7 @@ class RolesSeeder extends Seeder
                 'edit-patients'   => true,
                 'edit-lab'        => true,
                 'edit-record'     => true,
+                'edit-diseases'   => true,
                 // [ Search Roles ]
                 'search-user'       => true,
                 'search-center'     => true,
@@ -43,7 +45,8 @@ class RolesSeeder extends Seeder
                 'search-Acccounter' => true,
                 'search-patients'   => true,
                 'search-lab'        => true,
-                'search-record'     => true
+                'search-record'     => true,
+                'search-diseases'   => true
             ]),
         ]);
         // Doctor Roles
@@ -60,6 +63,7 @@ class RolesSeeder extends Seeder
                 'create-patients'   => true,
                 'create-lab'        => false,
                 'create-record'     => true,
+                'create-diseases'   => true,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -69,6 +73,7 @@ class RolesSeeder extends Seeder
                 'edit-patients'   => true,
                 'edit-lab'        => false,
                 'edit-record'     => true,
+                'edit-diseases'   => true,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -77,7 +82,8 @@ class RolesSeeder extends Seeder
                 'search-Acccounter' => false,
                 'search-patients'   => true,
                 'search-lab'        => true,
-                'search-record'     => true
+                'search-record'     => true,
+                'search-diseases'   => true
             ]),
         ]);
 
@@ -95,6 +101,7 @@ class RolesSeeder extends Seeder
                 'create-patients'   => true,
                 'create-lab'        => false,
                 'create-record'     => false,
+                'create-diseases'   => true,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -104,6 +111,7 @@ class RolesSeeder extends Seeder
                 'edit-patients'   => true,
                 'edit-lab'        => false,
                 'edit-record'     => false,
+                'edit-diseases'   => false,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -112,7 +120,8 @@ class RolesSeeder extends Seeder
                 'search-Acccounter' => false,
                 'search-patients'   => true,
                 'search-lab'        => false,
-                'search-record'     => false
+                'search-record'     => false,
+                'search-diseases'   => true
             ]),
         ]);
 
@@ -130,6 +139,7 @@ class RolesSeeder extends Seeder
                 'create-patients'   => false,
                 'create-lab'        => false,
                 'create-record'     => true,
+                'create-diseases'   => false,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -139,6 +149,7 @@ class RolesSeeder extends Seeder
                 'edit-patients'   => false,
                 'edit-lab'        => false,
                 'edit-record'     => true,
+                'edit-diseases'   => false,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -147,7 +158,8 @@ class RolesSeeder extends Seeder
                 'search-Acccounter' => false,
                 'search-patients'   => true,
                 'search-lab'        => false,
-                'search-record'     => true
+                'search-record'     => true,
+                'search-diseases'   => false
             ]),
         ]);
     }

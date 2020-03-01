@@ -342,6 +342,23 @@ return [
             ],
         ],
         [
+            'text'    => 'الأمراض',
+            'icon'    => 'fas fa-ravelry',
+            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ],
+            'submenu' => [
+                [
+                    'text' => 'إضافة مرض',
+                    'url'  => '/diseases/add',
+                    'icon'    => 'fas fa-hospital','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
+                ],
+                [
+                    'text' => 'الأمراض',
+                    'url'  => '/diseases/view',
+                    'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
+                ],
+            ],
+        ],
+        [
             'text'    => 'اليوزرات',
             'icon'    => 'fas fa-users',
             'permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ],

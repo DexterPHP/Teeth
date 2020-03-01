@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models;
 use App\Traits\UploadTrait;
 use App\User;
+use App\Models\Diseases;
 use App\user\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,29 +51,30 @@ class PatientsController extends Controller
                 return redirect()->back()->with('userExists' , ' ')->withInput($request->all());
             }
         } else {
-
             $user_id = Auth::user()->id; // user login id
             $User_data = User::find($user_id);
             $rols = $User_data->hasAccess(['create-patients']);
             if($rols){
                 $user_is = Auth::user()->user_type;
-                if($user_is == 2){   // if doctor
+                if($user_is == 1){// Main Center
                     $cc = Models\Doctor::where('user_id',$user_id)->get();
                     $arr['doctors'] = $cc;
-                    return view('user.add_user', $arr);
-                }else{
-                    if($user_is == 1){
-                        // Main Center
-                        $cc = Models\Doctor::with('Patiens')->get();
-                        $arr['doctors'] = $cc;
-                        return view('user.add_user', $arr);
-                    }elseif ($user_is == 3){
-                        // Reception
-                        $center_id = Auth::user()->center_id;
-                        $cc = Models\Doctor::where('center_id',$center_id)->get();
-                        $arr['doctors'] = $cc;
-                        return view('user.add_user', $arr);
-                    }
+                    $disease = Diseases::all();
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                }
+                elseif($user_is == 2){   // Doctor
+                    $cc = Models\Doctor::where('user_id',$user_id)->get();
+                    $arr['doctors'] = $cc;
+                    //$disease = Diseases::with('Center')->get();
+                    $disease = Diseases::where('center_id',Auth::user()->center_id)->get();
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                }elseif($user_is == 3){// Reception
+                    $center_id = Auth::user()->center_id;
+                    $cc = Models\Doctor::where('center_id',$center_id)->get();
+                    $arr['doctors'] = $cc;
+                    $disease = Diseases::where('center_id',Auth::user()->center_id)->get();
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                    //return view('user.add_user', $arr);
                 }
             }else{
                 abort(401, 'Access denied - وصول غير مسموح ');

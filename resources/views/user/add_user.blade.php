@@ -80,7 +80,7 @@
                             <input disabled type="text" value="{{session('_old_input')['user_age']}}" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
-                            <label for="inputClientCompany">رقم بطاقة المريض إن وجدت</label>
+                            <label for="inputClientCompany">رقم بطاقة المريض  </label>
                             <input type="text" value="{{session('_old_input')['card_number']}}" name="card_number" id="inputClientCompany" class="form-control" >
                         </div>
                         <div class="form-group">
@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label for="inputStatus">الطبيب</label>
                             <select class="form-control custom-select" name="doctors_id" id="e1" required>
-                                <option selected disabled>الرجاء الختيار</option>
+                                <option selected disabled>الرجاء الإختيار</option>
                                 @foreach($doctors as $doctor)
                                     <option value="{{$doctor->id}}">{{$doctor->doctor_fname}}</option>
                                 @endforeach
@@ -123,33 +123,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="inputEstimatedBudget">رقم الموبايل</label>
+                            <label for="inputEstimatedBudget">رقم هاتف المريض</label>
                             <input type="tel" value="{{session('_old_input')['user_mobile']}}" name="user_mobile" id="inputEstimatedBudget" class="form-control" required>
                         </div>
+
+                                <input type="hidden" name="depress" value="0" />
+                                <input type="hidden" name="smoking" value="0" />
+                                <input type="hidden" name="shoug" value="0"  />
                         <div class="form-group">
-                            <label for="inputStatus">هل يعاني من الضغط ؟</label>
-                            <select class="form-control custom-select"  name="depress">
+                            <label>الأمراض</label>
+                            <select class="form-control custom-select js-example-basic-multiple" name="diseases[]" multiple="multiple">
 
-                                <option value="0" selected>لا</option>
-                                <option value="1" >نعم</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputStatus">هل هو مريض سكري ؟</label>
-                            <select class="form-control custom-select"  name="shoug">
-
-                                <option value="0"  selected>لا</option>
-                                <option value="1" >نعم</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputStatus">هل هو مدخن ؟؟</label>
-                            <select class="form-control custom-select"  name="smoking">
-
-                                <option value="0" selected>لا</option>
-                                <option value="1" >نعم</option>
+                                @foreach($diseasei as $dis)
+                                    <option value="{{$dis->id}}">{{$dis->title}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -201,6 +188,11 @@
                 var Newbirth = format(birth);
                 $('#age:disabled').val(getAge(Newbirth));
             });
+        });
+    </script>
+    <script >
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
         });
     </script>
 @stop

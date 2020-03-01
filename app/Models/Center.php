@@ -18,4 +18,8 @@ class Center extends Model
     public function Doctors(){
         return $this->belongsTo('App\Models\Doctor','center_id');
     }
+    public function Diseases(){
+        return $this->hasMany('App\Models\Diseases','center_id');
+
+    }
 }

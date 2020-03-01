@@ -20,7 +20,6 @@ Route::get('/home', 'TestController@index')->name('home');
 Auth::routes();
 Route::get('/', 'TestController@index');
 
-//
 // Users
 Route::prefix('account')->group(function (){
 
@@ -28,7 +27,13 @@ Route::prefix('account')->group(function (){
     Route::post('/add','AccountController@addaccount'); // add User To System Post
 
 });
+// Diseases
+Route::prefix('diseases')->group(function (){
 
+    Route::get('/add','DiseasesController@create'); // add User To System View
+    Route::post('/add','DiseasesController@create'); // add User To System Post
+
+});
 // Patients
 Route::prefix('user')->group(function (){
 
