@@ -79,10 +79,7 @@
                             <label for="inputName">العمر</label>
                             <input disabled type="text" value="{{session('_old_input')['user_age']}}" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
-                        <div class="form-group">
-                            <label for="inputClientCompany">رقم بطاقة المريض  </label>
-                            <input type="text" value="{{session('_old_input')['card_number']}}" name="card_number" id="inputClientCompany" class="form-control" >
-                        </div>
+
                         <div class="form-group">
                             <label for="inputDescription">معلومات</label>
                             <input type="text" value="{{session('_old_input')['notes']}}" name="notes" id="inputName" class="form-control text-right" required>
@@ -103,16 +100,9 @@
                     </div>
                     <div class="card-body text-right">
                         <div class="form-group">
-                            <label for="inputStatus">الطبيب</label>
-                            <select class="form-control custom-select" name="doctors_id" id="e1" required>
-                                <option selected disabled>الرجاء الإختيار</option>
-                                @foreach($doctors as $doctor)
-                                    <option value="{{$doctor->id}}">{{$doctor->doctor_fname}}</option>
-                                @endforeach
-
-                            </select>
+                            <label for="inputClientCompany">رقم بطاقة المريض  </label>
+                            <input type="text" value="{{session('_old_input')['card_number']}}" name="card_number" id="inputClientCompany" class="form-control" >
                         </div>
-
                         <div class="form-group">
                             <label for="inputStatus">الجنس</label>
                             <select class="form-control custom-select" name="gender" required>
