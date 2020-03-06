@@ -3,7 +3,6 @@
 @section('title', 'إضافة مستخدم جديد')
 
 @section('content_header')
-
     <h1 class="text-center">إضافة مستخدم جديد  </h1>
 @stop
 
