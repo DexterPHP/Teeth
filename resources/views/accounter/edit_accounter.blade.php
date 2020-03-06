@@ -8,8 +8,6 @@
 @stop
 
 @section('content')
-
-
     @if(isset($Account_data))
         <table id="example" class="table table-striped table-bordered display text-center" style="width:100%">
             <thead>
