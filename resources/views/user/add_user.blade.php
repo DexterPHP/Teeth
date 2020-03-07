@@ -61,28 +61,28 @@
                     <div class="card-body  text-right">
                         <div class="form-group">
                             <label for="inputName">أسم المريض </label>
-                            <input type="text" value="{{session('_old_input')['username']}}" name="username" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['username']}}@endif" name="username" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputName"> الكنية</label>
-                            <input type="text" value="{{session('_old_input')['lastname']}}" name="lastname" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['lastname']}}@endif" name="lastname" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputName">أسم الأب </label>
-                            <input type="text" value="{{session('_old_input')['user_middel']}}" name="user_middel" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_middel']}}@endif" name="user_middel" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
-                            <input type="date"  value="{{session('_old_input')['birthday']}}" name="birthday" id="birthday" class="form-control" required>
+                            <input type="date"  value="@if(session('_old_input')){{session('_old_input')['birthday']}}@endif" name="birthday" id="birthday" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="inputName">العمر</label>
-                            <input disabled type="text" value="{{session('_old_input')['user_age']}}" min="3" name="user_age" id="age" class="form-control text-right" required>
+                            <input disabled type="text" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
 
                         <div class="form-group">
                             <label for="inputDescription">معلومات</label>
-                            <input type="text" value="{{session('_old_input')['notes']}}" name="notes" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['notes']}}@endif" name="notes" id="inputName" class="form-control text-right" required>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -101,7 +101,7 @@
                     <div class="card-body text-right">
                         <div class="form-group">
                             <label for="inputClientCompany">رقم بطاقة المريض  </label>
-                            <input type="text" value="{{session('_old_input')['card_number']}}" name="card_number" id="inputClientCompany" class="form-control" >
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['card_number']}}@endif" name="card_number" id="inputClientCompany" class="form-control" >
                         </div>
                         <div class="form-group">
                             <label for="inputStatus">الجنس</label>
@@ -114,7 +114,7 @@
 
                         <div class="form-group">
                             <label for="inputEstimatedBudget">رقم هاتف المريض</label>
-                            <input type="tel" value="{{session('_old_input')['user_mobile']}}" name="user_mobile" id="inputEstimatedBudget" class="form-control" required>
+                            <input type="tel" value="@if(session('_old_input')){{session('_old_input')['user_mobile']}}@endif" name="user_mobile" id="inputEstimatedBudget" class="form-control" required>
                         </div>
 
                                 <input type="hidden" name="depress" value="0" />
