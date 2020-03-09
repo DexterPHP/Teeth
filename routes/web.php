@@ -167,5 +167,18 @@ Route::prefix('dates')->group(function (){
 
 });
 
+// Users
+Route::prefix('money')->group(function (){
+
+    Route::get('/select','TransitionsController@choose'); //
+    // Center Move
+    Route::get('/center/expense','TransitionsController@expenseCenter')->name('out'); // Center سحب
+    Route::get('/center/income','TransitionsController@incomeCenter')->name('in'); // Center ايداع
+    // Doctor Move
+    Route::get('/doctors/expense','TransitionsController@expenseDoctor')->name('out'); // Doctor سحب
+    Route::get('/doctors/income','TransitionsController@incomeDoctor')->name('in');; // Doctor أيداع
+
+});
+
 
 

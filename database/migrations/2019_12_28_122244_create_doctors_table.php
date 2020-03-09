@@ -21,6 +21,9 @@ class CreateDoctorsTable extends Migration
             $table->string('doctor_spicalest')->nullable();
             $table->string('doctor_mobile')->nullable();
             $table->string('doctoe_accounter')->nullable();
+            $table->enum('Type',['Cash','Percent'])->default('Cash');
+            $table->integer('cash_percent')->default('0');
+            $table->integer('moneybox')->default('0');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('uuid')->unique();
             $table->bigInteger('center_id')->unsigned();

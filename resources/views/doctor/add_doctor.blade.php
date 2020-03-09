@@ -52,6 +52,17 @@
                             <input type="tel" name="doctor_mobile" id="inputName" class="form-control text-right" >
                         </div>
                         <div class="form-group">
+                            <label for="inputEstimatedBudget">نوع الدفع </label>
+                            <select class="form-control custom-select"  name="Type" required>
+                                    <option value="Cash" >مبلغ محدد</option>
+                                    <option value="Percent" >نسبة</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">المبلغ أو النسبة </label>
+                            <input type="number" min="0" name="cash_percent" value="1" id="inputEstimatedBudget" class="form-control text-right" required>
+                        </div>
+                        <div class="form-group">
                             <label for="inputEstimatedBudget">التخصص </label>
                             <input type="text" name="doctor_spicalest" id="inputEstimatedBudget" class="form-control text-right" required>
                             <input type="hidden" name="doctoe_accounter" value="1" id="inputEstimatedBudget" class="form-control text-right" required>
@@ -60,7 +71,6 @@
                         <div class="form-group">
                             <label for="inputStatus">المركز</label>
                             <select class="form-control custom-select"  name="center_id" id="e1">
-
                                 @foreach($doc as $center)
                                     <option value="{{$center->id}}" >{{$center->center_name}}</option>
                                 @endforeach
@@ -70,11 +80,10 @@
                         <div class="form-group">
                             <label for="inputStatus">اليوزر</label>
                             <select class="form-control custom-select" id="user" name="user_id" required>
-                                <option  disabled>الرجاء الختيار</option>
+                                <option  disabled>الرجاء الأختيار</option>
                                 @foreach($users as $user)
                                     <option value="{{$user->id}}">{{$user->name}} [ {{$user->email}} ]</option>
                                 @endforeach
-
                             </select>
                         </div>
 

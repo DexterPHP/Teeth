@@ -8,7 +8,9 @@ class Doctor extends Model
 {
     protected $table='doctors';
     protected $fillable=[
-        'id','doctor_fname','doctor_username','doctor_pass','doctor_spicalest','doctor_mobile','doctoe_accounter','center_id','uuid','user_id'
+        'id','doctor_fname','doctor_username','doctor_pass','doctor_spicalest',
+        'doctor_mobile','doctoe_accounter','center_id','uuid','user_id',
+        'Type','cash_percent','moneybox'
     ];
     public function Centers(){
         return $this->hasOne('App\Models\Center\Center','center_id');

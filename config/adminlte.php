@@ -210,7 +210,7 @@ return [
         [
             'text'    => 'الأطباء',
             'icon'    => 'fa fa-user-md',
-            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>true ],
+            'permission'  => [ 1=>true, 2=>false, 3=>true, 4=>true ],
             'submenu' => [
                 [
                     'text' => 'إضافة طبيب',
@@ -343,7 +343,7 @@ return [
         ],
         [
             'text'    => 'الأمراض',
-            'icon'    => 'fas fa-ravelry',
+            'icon'    => 'fas fa-frown' ,
             'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ],
             'submenu' => [
                 [
@@ -355,6 +355,23 @@ return [
                     'text' => 'الأمراض',
                     'url'  => '/diseases/view',
                     'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
+                ],
+            ],
+        ],
+        [
+            'text'    => 'محاسبة',
+            'icon'    => 'fas fa-money-bill',
+            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'عمليات محاسبية ',
+                    'url'  => '/money/select',
+                    'icon'    => 'fas fa-hospital','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+                [
+                    'text' => 'استعراض',
+                    'url'  => '/money/view',
+                    'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
                 ],
             ],
         ],

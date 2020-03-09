@@ -18,6 +18,7 @@ class CreateCentersTable extends Migration
             $table->string('center_name');
             $table->string('decr_h')->nullable();
             $table->string('uuid')->unique();
+            $table->integer('moneybox')->default('0');
             $table->timestamps();
         });
     }

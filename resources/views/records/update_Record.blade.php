@@ -44,10 +44,7 @@
                                 <input type="tel" value="{{$TheRecord->working_teeth}}" name="working_teeth" id="inputEstimatedBudget" class="form-control" required>
                             </div>
 
-                            <div class="form-group">
-                                <label for="inputName"> ملاحظة</label>
-                                <input type="text" value="{{$TheRecord->set_note}}" name="set_note" id="inputName" class="form-control text-right" required>
-                            </div>
+
 
                         </div>
                         <!-- /.card-body -->
@@ -65,14 +62,7 @@
                         </div>
 
                         <div class="card-body text-right">
-                            <div class="form-group">
-                                <label for="inputName">  المبلغ المطلوب </label>
-                                <input type="number" value="{{$TheRecord->set_total}}" min="500" name="set_total"  id="inputName" class="form-control text-right" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputName"> ادخال دفعة </label>
-                                <input type="number" value="{{$TheRecord->set_payment}}" min="500" name="set_payment"  id="inputName" class="form-control text-right" required>
-                            </div>
+
                             <div class="form-group">
                                 <label for="inputStatus">الطبيب</label>
 
@@ -89,6 +79,12 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="inputName"> ملاحظة</label>
+                                <input type="text" value="{{$TheRecord->set_note}}" name="set_note" id="inputName" class="form-control text-right" required>
+                            </div>
+                            <input type="hidden" value="{{$TheRecord->set_total}}"  name="set_total"  id="inputName" class="form-control text-right" >
+                            <input type="hidden" value="{{$TheRecord->set_payment}}" name="set_payment"  id="inputName" class="form-control text-right" >
 
 
 

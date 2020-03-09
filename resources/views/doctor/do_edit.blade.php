@@ -26,6 +26,51 @@
         @endif
         <div class="row">
             <div class="col-md-6">
+                <div class="card card-secondary">
+                    <div class="card-header">
+                        <h3 class="card-title">معلومات إضافية</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fas fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body text-right">
+
+
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">التخصص </label>
+                            <input type="text" name="doctor_spicalest" value="{{$daoctor->doctor_spicalest}}" id="inputEstimatedBudget" class="form-control text-right" required>
+                            <input type="hidden" name="doctoe_accounter" value="1" >
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">نوع الدفع </label>
+                            <select class="form-control custom-select"  name="Type" required>
+                                <option value="Cash" @if($daoctor->Type == 'Cash') ? 'selected': '' @endif >مبلغ محدد</option>
+                                <option value="Percent" @if($daoctor->Type == 'Percent') ? selected : '' @endif >نسبة</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">المبلغ أو النسبة </label>
+                            <input type="number"  min="0" name="cash_percent" value="{{$daoctor->cash_percent}}" id="inputEstimatedBudget" class="form-control text-right" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputStatus">المركز</label>
+                            <select class="form-control custom-select"  name="center_id">
+
+                                @foreach($doc as $center)
+                                    <option @if($daoctor->center_id == $center->id) selected @endif value="{{$center->id}}" >{{$center->center_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="col-md-6">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title text-right">معلومات أساسية</h3>
@@ -55,50 +100,7 @@
                 </div>
                 <!-- /.card -->
             </div>
-            <div class="col-md-6">
-                <div class="card card-secondary">
-                    <div class="card-header">
-                        <h3 class="card-title">معلومات إضافية</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fas fa-minus"></i></button>
-                        </div>
-                    </div>
-                    <div class="card-body text-right">
 
-
-                        <div class="form-group">
-                            <label for="inputEstimatedBudget">التخصص </label>
-                            <input type="text" name="doctor_spicalest" value="{{$daoctor->doctor_spicalest}}" id="inputEstimatedBudget" class="form-control text-right" required>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="inputStatus">المحاسب</label>
-                            <select class="form-control custom-select "  name="doctoe_accounter">
-                                <option value="0" selected>لا يوجد</option>
-                                @foreach($acc as $accounter)
-                                    <option @if($daoctor->doctor_spicalest == $accounter->id) selected @endif value="{{$accounter->id}}" >{{$accounter->accounter_fname}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="inputStatus">المركز</label>
-                            <select class="form-control custom-select"  name="center_id">
-
-                                @foreach($doc as $center)
-                                    <option @if($daoctor->center_id == $center->id) selected @endif value="{{$center->id}}" >{{$center->center_name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-            </div>
         </div>
         <div class="row">
             <div class="col-12">

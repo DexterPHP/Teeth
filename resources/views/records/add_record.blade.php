@@ -47,10 +47,7 @@
                             <input type="tel" name="working_teeth" id="inputEstimatedBudget" class="form-control" required>
                         </div>
 
-                        <div class="form-group">
-                            <label for="inputName">  المبلغ المطلوب </label>
-                            <input type="number" min="0" name="set_total"  id="inputName" class="form-control text-right" required>
-                        </div>
+
 
                     </div>
                     <!-- /.card-body -->
@@ -67,11 +64,6 @@
                         </div>
                     </div>
                     <div class="card-body text-right">
-
-                        <div class="form-group">
-                            <label for="inputName"> ادخال دفعة </label>
-                            <input type="number" min="500" name="set_payment"  id="inputName" class="form-control text-right" required>
-                        </div>
                         <div class="form-group">
                             <label for="inputStatus">الطبيب</label>
                             <select class="form-control custom-select" name="doctor_id" id="e1">
@@ -94,6 +86,8 @@
                         <div class="form-group">
                             <label for="inputName"> ملاحظة</label>
                             <input type="text" name="set_note" id="inputName" class="form-control text-right" required>
+                            <input type="hidden" value="0" name="set_payment"   class="form-control text-right" required>
+                            <input type="hidden" value="0" name="set_total"   class="form-control text-right" required>
                         </div>
 
 

@@ -18,7 +18,7 @@ class CreateRecordsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('patient_id')->unsigned();
             $table->bigInteger('doctor_id')->unsigned();
-            $table->integer('set_total');
+            $table->integer('set_total')->nullable();
             $table->integer('set_payment')->nullable();
             $table->bigInteger('teeth_lab')->unsigned()->nullable();
             $table->text('set_note')->nullable();
