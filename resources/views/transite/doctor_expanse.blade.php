@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'محاسبة |  سحب من المركز')
+@section('title', 'محاسبة |  سحب من صندوق طبيب')
 
 @section('content_header')
 
-    <h1 class="text-center">سحب من صندوق المركز     </h1>
+    <h1 class="text-center">  سحب من صندوق طبيب</h1>
 @stop
 
 @section('content')
@@ -25,15 +25,15 @@
                         <th><a href="expense/{{ $center->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
                         <th>{{ $center->center_name }}</th>
                         <td>
-                            @foreach($CenterData as $doctors)
-                                {{ $doctors->doctor_fname }} ||
+                            @foreach($center->Doctors as $doctors)
+                                {{ $doctors->doctor_fname }} ,
                             @endforeach
                         </td>
                     </tr>
                 @endforeach
             @else
                 <tr>
-                    <th><a href="expense/" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
+                    <th><a href="expense/{{ $center->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
                     <th>{{ $center->center_name }}</th>
                     <td>
                         @foreach($CenterData as $doctors)

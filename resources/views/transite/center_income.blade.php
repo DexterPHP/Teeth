@@ -25,7 +25,7 @@
                         <th><a href="income/{{ $center->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
                         <th>{{ $center->center_name }}</th>
                         <td>
-                            @foreach($CenterData as $doctors)
+                            @foreach($center->Doctors  as $doctors)
                                 {{ $doctors->doctor_fname }} ||
                             @endforeach
                         </td>
@@ -33,10 +33,10 @@
                 @endforeach
                @else
                 <tr>
-                    <th><a href="income/" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
+                    <th><a href="income/{{$center->uuid}}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
                     <th>{{ $center->center_name }}</th>
                     <td>
-                        @foreach($CenterData as $doctors)
+                        @foreach($center->Doctors as $doctors)
                             <b>{{ $doctors->doctor_fname }}</b> ,
                         @endforeach
                     </td>

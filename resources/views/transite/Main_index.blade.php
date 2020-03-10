@@ -87,7 +87,7 @@
                             <div class="icon">
                                 <i class="fas fa-balance-scale-left"></i>
                             </div>
-                            <a href="dexter/expense" class="small-box-footer">
+                            <a href="doctors/expense" class="small-box-footer">
                                 تنفيذ <i class="fas fa-arrow-circle-up"></i>
                             </a>
                         </div>

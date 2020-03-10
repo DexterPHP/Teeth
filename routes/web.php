@@ -174,9 +174,27 @@ Route::prefix('money')->group(function (){
     // Center Move
     Route::get('/center/expense','TransitionsController@expenseCenter')->name('out'); // Center سحب
     Route::get('/center/income','TransitionsController@incomeCenter')->name('in'); // Center ايداع
+    // Center in
+    Route::get('/center/income/{uuid}','TransitionsController@inCenter')->name('in'); // Center Money in
+    Route::post('/center/income/{uuid}','TransitionsController@inCenter')->name('in'); // Center Money Out
+    // Center out
+    Route::get('/center/expense/{uuid}','TransitionsController@outCenter')->name('in'); // Center Money in
+    Route::post('/center/expense/{uuid}','TransitionsController@outCenter')->name('in'); // Center Money Out
+
+
     // Doctor Move
     Route::get('/doctors/expense','TransitionsController@expenseDoctor')->name('out'); // Doctor سحب
     Route::get('/doctors/income','TransitionsController@incomeDoctor')->name('in');; // Doctor أيداع
+
+    // View Doctor in Center
+    Route::get('/doctors/expense/{uuid}','TransitionsController@ViewDoctoeCenterexpense')->name('out'); // Doctor سحب
+    Route::get('/doctors/income/{uuid}','TransitionsController@ViewDoctoeCenterincome')->name('in');; // Doctor أيداع
+    // Doctor Money In
+    Route::get('/doctors/income/push/{uuid}','TransitionsController@DoctorMoneyIn')->name('in');; // Doctor أيداع
+    Route::post('/doctors/income/push/{uuid}','TransitionsController@DoctorMoneyIn')->name('in');; // Doctor أيداع
+    // Doctor Money Out
+    Route::get('/doctors/expense/pull/{uuid}','TransitionsController@DoctorMoneyOut')->name('in');; // Doctor أيداع
+    Route::post('/doctors/expense/pull/{uuid}','TransitionsController@DoctorMoneyOut')->name('in');; // Doctor أيداع
 
 });
 

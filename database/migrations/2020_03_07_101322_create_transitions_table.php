@@ -19,10 +19,14 @@ class CreateTransitionsTable extends Migration
             $table->string('Type')->default('1');
             $table->bigInteger('center_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('patients_id')->unsigned()->nullable();
             $table->string('Opeartion');
+            $table->string('notes');
+            $table->string('uuid')->unique();
             $table->date('created_date');
             $table->foreign('center_id')->references('id')->on('centers');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('patients_id')->references('id')->on('patients');
             $table->timestamps();
         });
     }
