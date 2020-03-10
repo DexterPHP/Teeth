@@ -1,11 +1,9 @@
 @extends('adminlte::page')
 
 @section('title', 'إضافة مستخدم جديد')
-
 @section('content_header')
     <h1 class="text-center">إضافة مستخدم جديد  </h1>
 @stop
-
 @section('content')
     <form method="post" dir="rtl">{{csrf_field()}}
         @if(session('message'))
@@ -16,7 +14,6 @@
             </div>
         @endif
         @if(session('userExists'))
-
             <div class="alert alert-danger alert-dismissible text-right">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h5><i class="icon fas fa-check"></i>خطأ </h5>
