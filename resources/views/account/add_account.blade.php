@@ -104,7 +104,6 @@
         </div>
     </form>
 @stop
-
 @section('js')
     <script>
         $(document).ready(function() { $("#e1").select2(); });
