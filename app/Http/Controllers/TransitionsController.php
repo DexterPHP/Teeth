@@ -493,9 +493,9 @@ class TransitionsController extends Controller
         if($request->isMethod('post')){
              if(Auth::user()->user_type == 1){
                  $doctor = Doctor::where('uuid',$uuid)->get()[0];
-                 $user_center = $doctor->center_id;
-                 $user_id = $doctor->user_id;
-                 $center_id= Center::where('id',$user_center)->get();
+                 $center_id = $doctor->center_id; // Center id
+                 $user_id = $doctor->user_id; // User id
+                 $center_id= Center::where('id',$center_id)->get();
              }else{
                  $user_id = Auth::user()->id; // user login id
                  $center_id= Center::where('uuid',$uuid)->get();
@@ -515,7 +515,7 @@ class TransitionsController extends Controller
                     $save_tran = Transitions::create($request->all());
                     if($save_tran){
                         $user = $user_id; // For this Doctor
-                        $Doctor_Box = Doctor::find($user);
+                        $Doctor_Box = Doctor::where('user_id',$user)->get()[0];
                         $moneybox = $center_id[0]->moneybox;
                         if($Doctor_Box->Type == 'Percent'){ // Percent
                             $all = abs($request['Amount']); // 1000
@@ -524,18 +524,19 @@ class TransitionsController extends Controller
                             $for_Doctor = $all - $for_Center; // 1000-150
                             $add_to_doctor = $Doctor_Box->moneybox+$for_Doctor; // 0+850 = 850
                             $add_to_center = $moneybox+$for_Center; // 0+150
-                            dd($Doctor_Box->cash_percent,$all,$c_p,$for_Center,$for_Doctor,$add_to_center,$add_to_doctor);
+                            //dd($Doctor_Box->cash_percent,$all,$c_p,$for_Center,$for_Doctor,$add_to_center,$add_to_doctor,$Doctor_Box->moneybox,$moneybox);
                             $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $add_to_center]);
-                            $update_moneyBoxD = Doctor::where('user_id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
+                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
+
                         }else{
                             // Cash
                             $all = abs($request['Amount']);
-                            dd($request->all());
-                            $update_moneyBox = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $all]);
+                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $all]);
                         }
                     }else{
                         // Rollback Transaction
                         DB::rollback();
+                        return redirect()->back()->with('WithError'.' ');
                     }
                     // Commit Transaction
                     DB::commit();
