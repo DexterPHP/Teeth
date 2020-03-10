@@ -7,7 +7,6 @@
 @stop
 
 @section('content')
-
     <form method="post" dir="rtl">{{csrf_field()}}
         @if(session('message'))
             <div class="alert alert-success alert-dismissible text-right">
@@ -75,7 +74,6 @@
                                 @foreach($roles_list as $role)
                                     <option value="{{$role->id}}">{{$role->name}}</option>
                                 @endforeach
-
                             </select>
                         </div>
 
