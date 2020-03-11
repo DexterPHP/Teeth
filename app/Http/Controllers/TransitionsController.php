@@ -498,7 +498,8 @@ class TransitionsController extends Controller
                  $center_id= Center::where('id',$center_id)->get();
              }else{
                  $user_id = Auth::user()->id; // user login id
-                 $center_id= Center::where('uuid',$uuid)->get();
+                 $center_are = Auth::user()->center_id; // Center id
+                 $center_id= Center::where('id',$center_are)->get();
              }
             if(count($center_id) > 0){
                 $request['center_id']    = $center_id[0]->id;
@@ -515,7 +516,7 @@ class TransitionsController extends Controller
                     $save_tran = Transitions::create($request->all());
                     if($save_tran){
                         $user = $user_id; // For this Doctor
-                        $Doctor_Box = Doctor::where('user_id',$user)->get()[0];
+                        $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
                         $moneybox = $center_id[0]->moneybox;
                         if($Doctor_Box->Type == 'Percent'){ // Percent
                             $all = abs($request['Amount']); // 1000
@@ -527,10 +528,10 @@ class TransitionsController extends Controller
                             //dd($Doctor_Box->cash_percent,$all,$c_p,$for_Center,$for_Doctor,$add_to_center,$add_to_doctor,$Doctor_Box->moneybox,$moneybox);
                             $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $add_to_center]);
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
-
                         }else{
                             // Cash
-                            $all = abs($request['Amount']);
+
+                            $all = $Doctor_Box->moneybox+abs($request['Amount']);
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $all]);
                         }
                     }else{
@@ -547,6 +548,7 @@ class TransitionsController extends Controller
                     return redirect()->back()->with('WithError'.' ');
                 }
             }else{
+
                 // Center Not Exist
                 abort(401, 'Access denied - وصول غير مسموح ');
             }
@@ -568,10 +570,41 @@ class TransitionsController extends Controller
                     }
 
                 }else if($user_is == 2){// Doctor
-
+                    $Find_doctor = Doctor::where('user_id',$user_id)->get();
+                    if(count($Find_doctor) > 0){
+                        if($Find_doctor[0]->uuid == $uuid){
+                            $Doctor = Doctor::where('uuid',$uuid)->get();
+                            if(count($Doctor) > 0){
+                                $Doctor = $Doctor[0];
+                                $Patiens = $Doctor->Patiens;
+                                return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
+                            }else{
+                                abort(401, 'Access denied - وصول غير مسموح ');
+                            }
+                        }
+                        else{
+                            abort(401, 'Access denied - وصول غير مسموح ');
+                        }
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
                 }else if($user_is == 3){// Reception
                     // Not Allowed
                 }else if($user_is == 4){ //Accounter
+                    $Doctor = Doctor::where('uuid',$uuid)->get();
+                    if(count($Doctor) > 0){
+                        $user_center = Auth::user()->center_id;
+                        if($Doctor[0]->center_id == $user_center){
+                            $Doctor = Doctor::where('uuid',$uuid)->get()[0];
+                            $Patiens = $Doctor->Patiens;
+                            return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
+
+                        }else{
+                            abort(401, 'Access denied - وصول غير مسموح ');
+                        }
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
 
                 }
 
