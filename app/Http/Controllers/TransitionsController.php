@@ -616,20 +616,132 @@ class TransitionsController extends Controller
     // Doctor Money Out
     public function DoctorMoneyOut(Request $request,$uuid){
         if($request->isMethod('post')){
+            if(Auth::user()->user_type == 1){
+                $doctor = Doctor::where('uuid',$uuid)->get()[0];
+                $center_id = $doctor->center_id; // Center id
+                $user_id = $doctor->user_id; // User id
+                $center_id= Center::where('id',$center_id)->get();
+                /////////////////////////////////////////////////////////
+                $Full_Box = $center_id[0]->moneybox + $doctor->moneybox; // Full Box
+                if($request->howchange > $Full_Box){
+                    return redirect()->back()->with('MoreThanBox',' ');
+                }
+                /////////////////////////////////////////////////////////
 
-        }else{
+            }else{
+                $user_id = Auth::user()->id; // user login id
+                $center_are = Auth::user()->center_id; // Center id
+                $center_id= Center::where('id',$center_are)->get();
+            }
+            if(count($center_id) > 0){
+                $request['center_id']    = $center_id[0]->id;
+                $request['Amount']       = abs($request->howchange) ;
+                $request['user_id']      = $user_id;
+                $request['Opeartion']    = 'expense';
+                $request['Type']         = 'expense';
+                $request['patients_id']  = $request->Patieon_id;
+                $request['uuid']         = Str::uuid()->toString();
+                $request['created_date'] = date('Y-m-d');
+                DB::beginTransaction();
+                try
+                {
+                    $save_tran = Transitions::create($request->all());
+                    if($save_tran){
+                        $user = $user_id; // For this Doctor
+                        $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
+                        $moneybox = $center_id[0]->moneybox;
+                        if($request->howchange > $Doctor_Box->moneybox){ // Take from Center and Doctor
+                             $total = $request->howchange;
+                             $remove_from_center= $total-$Doctor_Box->moneybox;
+                             $remove_from_doctor = $Doctor_Box->moneybox;
+                             $newdoctor = ($Doctor_Box->moneybox - $remove_from_doctor) - $remove_from_center ;
+                             $newcenter = $moneybox - $remove_from_center;
+                            $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $newcenter]);
+                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
+                            $take = $remove_from_center;
+
+                        }else{ // Take from Doctor Only
+                            $total = $request->howchange;
+                            $remove_from_doctor = $total - $Doctor_Box->moneybox;
+                            $newdoctor = $Doctor_Box->moneybox - $remove_from_doctor ;
+                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
+                            $take = null;
+                        }
+                    }else{
+                        // Rollback Transaction
+                        DB::rollback();
+                        return redirect()->back()->with(['WithError'=>' ','data'=>$take]);
+                    }
+                    // Commit Transaction
+                    DB::commit();
+                    return redirect()->back()->with(['Greate'=>' ','data'=>$take]);
+                }catch (\Exception $e) {
+                    // Rollback Transaction
+                    DB::rollback();
+                    return redirect()->back()->with(['WithError'=>' ','data'=>$take]);
+                }
+            }else{
+
+                // Center Not Exist
+                abort(401, 'Access denied - وصول غير مسموح ');
+            }
+
+        }
+        else{
             $user_id = Auth::user()->id; // user login id
             $User_data = User::find($user_id);
             $rols = $User_data->hasAccess(['create-transition']);
             if($rols){
                 $user_is = Auth::user()->user_type;
                 if($user_is == 1){// Super Admin
+                    $Doctor = Doctor::where('uuid',$uuid)->get();
+                    if(count($Doctor) > 0){
+                        $Doctor     = Doctor::where('uuid',$uuid)->get()[0];
+                        $center     = Center::where('id',$Doctor->center_id)->get();
+                        return view('transite.doctor_pull_money',['DoctorData'=>$Doctor,'Center'=>$center[0]]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
 
-                }else if($user_is == 2){// Doctor
-
-                }else if($user_is == 3){// Reception
+                }
+                else if($user_is == 2){// Doctor
+                    $Find_doctor = Doctor::where('user_id',$user_id)->get();
+                    if(count($Find_doctor) > 0){
+                        if($Find_doctor[0]->uuid == $uuid){
+                            $Doctor = Doctor::where('uuid',$uuid)->get();
+                            if(count($Doctor) > 0){
+                                $Doctor = $Doctor[0];
+                                $Patiens = $Doctor->Patiens;
+                                return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
+                            }else{
+                                abort(401, 'Access denied - وصول غير مسموح ');
+                            }
+                        }
+                        else{
+                            abort(401, 'Access denied - وصول غير مسموح ');
+                        }
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }
+                else if($user_is == 3){// Reception
                     // Not Allowed
-                }else if($user_is == 4){ //Accounter
+                }
+                else if($user_is == 4){ //Accounter
+                    $Doctor = Doctor::where('uuid',$uuid)->get();
+                    if(count($Doctor) > 0){
+                        $user_center = Auth::user()->center_id;
+                        if($Doctor[0]->center_id == $user_center){
+                            $Doctor = Doctor::where('uuid',$uuid)->get()[0];
+                            $Patiens = $Doctor->Patiens;
+                            return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
+
+                        }else{
+                            abort(401, 'Access denied - وصول غير مسموح ');
+                        }
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
 
                 }
 

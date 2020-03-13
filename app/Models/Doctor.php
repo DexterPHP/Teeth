@@ -13,7 +13,7 @@ class Doctor extends Model
         'Type','cash_percent','moneybox'
     ];
     public function Centers(){
-        return $this->hasOne('App\Models\Center\Center','center_id');
+        return $this->hasOne('App\Models\Center','id');
         // Center_id [FK] for colmoun (Center_id) in Doctor Table
     }
     public function Patiens(){

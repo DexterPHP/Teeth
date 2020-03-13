@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'إضافة مبلغ لصندوق المركز')
+@section('title', 'إضافة مبلغ في حساب طبيب ')
 
 @if(isset($DoctorData))
 @section('content_header')
