@@ -665,7 +665,7 @@ class TransitionsController extends Controller
                             $remove_from_doctor = $total - $Doctor_Box->moneybox;
                             $newdoctor = $Doctor_Box->moneybox - $remove_from_doctor ;
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
-                            $take = null;
+                            $take = null; // No update
                         }
                     }else{
                         // Rollback Transaction
