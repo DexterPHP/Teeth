@@ -530,9 +530,19 @@ class TransitionsController extends Controller
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
                         }else{
                             // Cash
+                            if($Doctor_Box->moneybox < 0){ // -1000
+                                $tozero   = 0 - ($Doctor_Box->moneybox); // M شاد بدو المركز من الدكتور
+                                $todoctor = ($request['Amount']) - $tozero; //  1000 - 1000 = 0
+                                $add_to_center = $moneybox + $tozero; // 7000 + 1000
+                                // End Collect To Center Box
+                                $add_to_doctor = 0 + $todoctor; // -1000 + 0
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $add_to_center]);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
 
-                            $all = $Doctor_Box->moneybox+abs($request['Amount']);
-                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $all]);
+                            }else{
+                                $all = $Doctor_Box->moneybox+abs($request['Amount']);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $all]);
+                            }
                         }
                     }else{
                         // Rollback Transaction
@@ -543,6 +553,7 @@ class TransitionsController extends Controller
                     DB::commit();
                     return redirect()->back()->with('Greate',' ');
                 }catch (\Exception $e) {
+                    dd('1',$e);
                     // Rollback Transaction
                     DB::rollback();
                     return redirect()->back()->with('WithError'.' ');
@@ -651,6 +662,7 @@ class TransitionsController extends Controller
                         $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
                         $moneybox = $center_id[0]->moneybox;
                         if($request->howchange > $Doctor_Box->moneybox){ // Take from Center and Doctor
+
                              $total = $request->howchange;
                              $remove_from_center= $total-$Doctor_Box->moneybox;
                              $remove_from_doctor = $Doctor_Box->moneybox;
@@ -659,13 +671,14 @@ class TransitionsController extends Controller
                             $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $newcenter]);
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
                             $take = $remove_from_center;
+                            //dd($total,$remove_from_center,$remove_from_doctor,$newdoctor,$newcenter);
 
                         }else{ // Take from Doctor Only
                             $total = $request->howchange;
                             $remove_from_doctor = $total - $Doctor_Box->moneybox;
                             $newdoctor = $Doctor_Box->moneybox - $remove_from_doctor ;
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
-                            $take = null; // No update
+                            $take = null;
                         }
                     }else{
                         // Rollback Transaction
