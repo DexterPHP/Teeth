@@ -661,17 +661,23 @@ class TransitionsController extends Controller
                         $user = $user_id; // For this Doctor
                         $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
                         $moneybox = $center_id[0]->moneybox;
-                        if($request->howchange > $Doctor_Box->moneybox){ // Take from Center and Doctor
+                        $Doctrbox = $Doctor_Box->moneybox; // D أكيد سالب
+                        if($request->howchange > $Doctrbox){ // Take from Center and Doctor
+                            $total = abs($request->howchange);
+                            $remove_from_center =  $moneybox - $total  ;
+                            if($remove_from_center >= 0){
+                                $remove_from_doctor =  $Doctrbox + (- $total  );
+                                $newdoctor = $remove_from_doctor;
+                                $newcenter = $remove_from_center;
+                                $new_center = $moneybox - $total;
 
-                             $total = $request->howchange;
-                             $remove_from_center= $total-$Doctor_Box->moneybox;
-                             $remove_from_doctor = $Doctor_Box->moneybox;
-                             $newdoctor = ($Doctor_Box->moneybox - $remove_from_doctor) - $remove_from_center ;
-                             $newcenter = $moneybox - $remove_from_center;
-                            $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $newcenter]);
-                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
-                            $take = $remove_from_center;
-                            //dd($total,$remove_from_center,$remove_from_doctor,$newdoctor,$newcenter);
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $new_center]);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $remove_from_doctor]);
+                                $take = $total;
+                            }else{
+                                DB::rollback();
+                                return redirect()->back()->with(['MoreThanBox'=>' ','data'=>Null]);
+                            }
 
                         }else{ // Take from Doctor Only
                             $total = $request->howchange;
@@ -683,7 +689,7 @@ class TransitionsController extends Controller
                     }else{
                         // Rollback Transaction
                         DB::rollback();
-                        return redirect()->back()->with(['WithError'=>' ','data'=>$take]);
+                        return redirect()->back()->with(['WithError'=>' ','data'=>Null]);
                     }
                     // Commit Transaction
                     DB::commit();
@@ -723,9 +729,9 @@ class TransitionsController extends Controller
                         if($Find_doctor[0]->uuid == $uuid){
                             $Doctor = Doctor::where('uuid',$uuid)->get();
                             if(count($Doctor) > 0){
-                                $Doctor = $Doctor[0];
-                                $Patiens = $Doctor->Patiens;
-                                return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
+                                $Doctor     = Doctor::where('uuid',$uuid)->get()[0];
+                                $center     = Center::where('id',$Doctor->center_id)->get();
+                                return view('transite.doctor_pull_money',['DoctorData'=>$Doctor,'Center'=>$center[0]]);
                             }else{
                                 abort(401, 'Access denied - وصول غير مسموح ');
                             }
@@ -745,10 +751,9 @@ class TransitionsController extends Controller
                     if(count($Doctor) > 0){
                         $user_center = Auth::user()->center_id;
                         if($Doctor[0]->center_id == $user_center){
-                            $Doctor = Doctor::where('uuid',$uuid)->get()[0];
-                            $Patiens = $Doctor->Patiens;
-                            return view('transite.doctor_push_money',['DoctorData'=>$Doctor,'Patiens'=>$Patiens]);
-
+                            $Doctor     = Doctor::where('uuid',$uuid)->get()[0];
+                            $center     = Center::where('id',$Doctor->center_id)->get();
+                            return view('transite.doctor_pull_money',['DoctorData'=>$Doctor,'Center'=>$center[0]]);
                         }else{
                             abort(401, 'Access denied - وصول غير مسموح ');
                         }
