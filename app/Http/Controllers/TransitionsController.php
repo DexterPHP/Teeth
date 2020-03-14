@@ -31,11 +31,17 @@ class TransitionsController extends Controller
             if($user_is == 1){// Super Admin
                 return view('transite.Main_index');
             }else if($user_is == 2){// Doctor
-                return view('transite.Main_index');
+                $User = Auth::user()->center_id;
+                $u_id = Auth::user()->id;
+                $center = Center::find($User);
+                $doctor = Doctor::where('user_id',$u_id)->get()[0];
+                return view('transite.Main_doctor',['center'=>$center,'doctor'=>$doctor]);
             }else if($user_is == 3){// Reception
                 // Not Allowed
             }else if($user_is == 4){ //Accounter
-                return view('transite.Main_index');
+                $User = Auth::user()->center_id;
+                $center = Center::find($User);
+                return view('transite.Main_accounter',['center'=>$center]);
             }
 
         }else{
@@ -670,7 +676,6 @@ class TransitionsController extends Controller
                                 $newdoctor = $remove_from_doctor;
                                 $newcenter = $remove_from_center;
                                 $new_center = $moneybox - $total;
-
                                 $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $new_center]);
                                 $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $remove_from_doctor]);
                                 $take = $total;
