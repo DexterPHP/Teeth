@@ -125,7 +125,7 @@ class TransitionsController extends Controller
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    ='income';
-                $request['Type']    ='income';
+                $request['Type']    ='center';
                 $request['uuid']    = $uuid = Str::uuid()->toString();
                 $request['created_date'] = date('Y-m-d');
                 DB::beginTransaction();
@@ -224,7 +224,7 @@ class TransitionsController extends Controller
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    ='expense';
-                $request['Type']    ='expense';
+                $request['Type']    ='center';
                 $request['uuid']    = $uuid = Str::uuid()->toString();
                 $request['created_date'] = date('Y-m-d');
 
@@ -512,7 +512,7 @@ class TransitionsController extends Controller
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    = 'income';
-                $request['Type']         = 'income';
+                $request['Type']         = 'doctor';
                 $request['patients_id']  = $request->Patieon_id;
                 $request['uuid']         = Str::uuid()->toString();
                 $request['created_date'] = date('Y-m-d');
@@ -525,15 +525,37 @@ class TransitionsController extends Controller
                         $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
                         $moneybox = $center_id[0]->moneybox;
                         if($Doctor_Box->Type == 'Percent'){ // Percent
-                            $all = abs($request['Amount']); // 1000
-                            $c_p = $Doctor_Box->cash_percent; // 15
-                            $for_Center = ($all*$c_p)/100; // (1000*15)/100
-                            $for_Doctor = $all - $for_Center; // 1000-150
-                            $add_to_doctor = $Doctor_Box->moneybox+$for_Doctor; // 0+850 = 850
-                            $add_to_center = $moneybox+$for_Center; // 0+150
-                            //dd($Doctor_Box->cash_percent,$all,$c_p,$for_Center,$for_Doctor,$add_to_center,$add_to_doctor,$Doctor_Box->moneybox,$moneybox);
-                            $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $add_to_center]);
-                            $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
+                            $all = abs($request['Amount']); //
+                            $c_pp = $Doctor_Box->moneybox; // -1000
+                            $doctor = $c_pp;
+                            $center = $moneybox;
+                            $money = $all;
+                            $c_p = ($all*$Doctor_Box->cash_percent)/100;
+                            $d_p = $all - $c_p;
+
+                            #######################
+                            if($doctor < 0 && $d_p + $doctor < 0){ // - -
+                                $doctor = $doctor +$d_p;
+                                $center = $center + $money;
+
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $center]);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $doctor]);
+
+                            }else if($doctor < 0 && ($d_p + $doctor) > 0){ // - +
+                                $belal = $d_p + $doctor;
+                                $mohmd = $c_p + $center+ abs($doctor);
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $mohmd]);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $belal]);
+
+                            }elseif($doctor > 0){ // + +
+                                $for_Center = $c_p; //
+                                $for_Doctor = $d_p; //
+                                $add_to_doctor = $Doctor_Box->moneybox+$for_Doctor; //
+                                $add_to_center = $moneybox+$for_Center; //
+                                //dd($Doctor_Box->cash_percent,$all,$c_p,$for_Center,$for_Doctor,$add_to_center,$add_to_doctor,$Doctor_Box->moneybox,$moneybox);
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $add_to_center]);
+                                $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $add_to_doctor]);
+                            }
                         }else{
                             // Cash
                             if($Doctor_Box->moneybox < 0){ // -1000
@@ -641,6 +663,7 @@ class TransitionsController extends Controller
                 /////////////////////////////////////////////////////////
                 $Full_Box = $center_id[0]->moneybox + $doctor->moneybox; // Full Box
                 if($request->howchange > $Full_Box){
+
                     return redirect()->back()->with('MoreThanBox',' ');
                 }
                 /////////////////////////////////////////////////////////
@@ -655,7 +678,7 @@ class TransitionsController extends Controller
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    = 'expense';
-                $request['Type']         = 'expense';
+                $request['Type']         = 'doctor';
                 $request['patients_id']  = $request->Patieon_id;
                 $request['uuid']         = Str::uuid()->toString();
                 $request['created_date'] = date('Y-m-d');
@@ -666,19 +689,22 @@ class TransitionsController extends Controller
                     if($save_tran){
                         $user = $user_id; // For this Doctor
                         $Doctor_Box = Doctor::where('uuid',$uuid)->get()[0];
-                        $moneybox = $center_id[0]->moneybox;
-                        $Doctrbox = $Doctor_Box->moneybox; // D أكيد سالب
-                        if($request->howchange > $Doctrbox){ // Take from Center and Doctor
-                            $total = abs($request->howchange);
-                            $remove_from_center =  $moneybox - $total  ;
+                        $moneybox = $center_id[0]->moneybox; // Center Cash
+                        $Doctrbox = $Doctor_Box->moneybox; // Doctor Cash
+                        if($request->howchange > $Doctrbox){
+                            // Take from Center and Doctor
+                            $total = abs($request->howchange); // 11050
+                            $remove_from_center =  $moneybox - ( $total - $Doctrbox)   ;
                             if($remove_from_center >= 0){
-                                $remove_from_doctor =  $Doctrbox + (- $total  );
+                                $remove_from_doctor =  $Doctrbox + ( - $total  );
                                 $newdoctor = $remove_from_doctor;
                                 $newcenter = $remove_from_center;
-                                $new_center = $moneybox - $total;
-                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $new_center]);
+                                $new_center = $moneybox - $remove_from_center;
+                                $r_c = ($total - $Doctrbox) ;
+                                //dd($moneybox,$remove_from_center,$total - $Doctrbox );
+                                $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $remove_from_center]);
                                 $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $remove_from_doctor]);
-                                $take = $total;
+                                $take = $new_center;
                             }else{
                                 DB::rollback();
                                 return redirect()->back()->with(['MoreThanBox'=>' ','data'=>Null]);
@@ -776,4 +802,63 @@ class TransitionsController extends Controller
 
 
 ######### Doctor #########
+
+
+    // Browser
+    public function Browser(){
+
+            $user_id = Auth::user()->id; // user login id
+            $User_data = User::find($user_id);
+            $rols = $User_data->hasAccess(['search-transition']);
+            if($rols){
+                $user_is = Auth::user()->user_type;
+                if($user_is == 1){// Super Admin
+                    return view('transite.select_to_Search_Trans');
+
+                }else if($user_is == 2){// Doctor
+
+                }else if($user_is == 3){// Reception
+
+                }else if($user_is == 4){ //Accounter
+
+                }
+
+            }else{
+                abort(401, 'Access denied - وصول غير مسموح ');
+            }
+
+
+    }
+
+    // Test
+    public function BrowserView(Request $request){
+        if($request->isMethod('post')){
+            $user_id = Auth::user()->id; // user login id
+            $User_data = User::find($user_id);
+            $rols = $User_data->hasAccess(['search-transition']);
+            if($rols){
+                $user_is = Auth::user()->user_type;
+                if($user_is == 1){// Super Admin
+                    $dates = $request['dates'];
+                    $ex = explode('||',$dates);
+                    $start = trim($ex[0]);
+                    $end = trim($ex[1]);
+                    $trans = Transitions::whereBetween('created_date',array($start,$end))->get();
+                    dd($start,$end,$trans);
+
+                }else if($user_is == 2){// Doctor
+
+                }else if($user_is == 3){// Reception
+
+                }else if($user_is == 4){ //Accounter
+
+                }
+
+            }else{
+                abort(401, 'Access denied - وصول غير مسموح ');
+            }
+
+        }
+
+    }
 }

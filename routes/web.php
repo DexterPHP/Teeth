@@ -196,6 +196,11 @@ Route::prefix('money')->group(function (){
     Route::get('/doctors/expense/pull/{uuid}','TransitionsController@DoctorMoneyOut')->name('in');; // Doctor أيداع
     Route::post('/doctors/expense/pull/{uuid}','TransitionsController@DoctorMoneyOut')->name('in');; // Doctor أيداع
 
+
+    // Browser
+    Route::get('/view','TransitionsController@Browser'); // Doctor أيداع
+    Route::post('/view','TransitionsController@BrowserView'); // Doctor أيداع
+
 });
 
 
