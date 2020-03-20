@@ -199,7 +199,36 @@ Route::prefix('money')->group(function (){
 
     // Browser
     Route::get('/view','TransitionsController@Browser'); // Doctor أيداع
-    Route::post('/view','TransitionsController@BrowserView'); // Doctor أيداع
+    //Route::post('/view','TransitionsController@BrowserView'); // Doctor أيداع
+
+
+// Doctor in
+    Route::get('/doctors/in','TransitionsController@DoctorsIn'); //
+    Route::get('/doctors/in/{uuid}','TransitionsController@DoctorsInCenter'); //
+    Route::get('/doctors/in/push/{uuid}','TransitionsController@DoctorsInCenteruuid'); //
+    Route::post('/doctors/in/push/{uuid}','TransitionsController@DoctorsInCenteruuid'); //
+
+// Doctor Out
+    Route::get('/doctors/out','TransitionsController@DoctorsOut'); //
+    Route::get('/doctors/out/{uuid}','TransitionsController@DoctorsOutCenter'); //
+    Route::get('/doctors/out/pull/{uuid}','TransitionsController@DoctorsOutCenteruuid'); //
+    Route::post('/doctors/out/pull/{uuid}','TransitionsController@DoctorsOutCenteruuid'); //
+
+
+    // Center in
+    Route::get('/center/in','TransitionsController@CenterIn'); //
+    Route::get('/center/in/{uuid}','TransitionsController@CenterInCenteruuid'); //
+    Route::post('/center/in/{uuid}','TransitionsController@CenterInCenteruuid'); //
+
+    // Center in
+    Route::get('/center/out','TransitionsController@CenterOut'); //
+    Route::get('/center/out/{uuid}','TransitionsController@CenterOutCenteruuid'); //
+    Route::post('/center/out/{uuid}','TransitionsController@CenterOutCenteruuid'); //
+
+
+
+
+
 
 });
 

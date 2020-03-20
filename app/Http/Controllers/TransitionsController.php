@@ -6,14 +6,15 @@ use App\Models\Center;
 use App\Models\Doctor;
 use App\Models\Transitions;
 use App\User;
+use App\user\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-
+/*
 use PhpParser\Comment\Doc;
 use function GuzzleHttp\Promise\all;
-
+*/
 class TransitionsController extends Controller
 {
     // Auth
@@ -122,6 +123,7 @@ class TransitionsController extends Controller
             if(count($center_id) > 0){
                 $center_box = Center::where('uuid',$uuid)->get()[0];
                 $request['center_id']    = $center_box->id;
+                $request['doctor_id']    = Null;
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    ='income';
@@ -142,7 +144,7 @@ class TransitionsController extends Controller
                     }
                     // Commit Transaction
                     DB::commit();
-                     return redirect()->back()->with('Greate',' ');
+                    return redirect()->back()->with('Greate',' ');
                 }catch (\Exception $e) {
                     // Rollback Transaction
                     DB::rollback();
@@ -221,6 +223,7 @@ class TransitionsController extends Controller
             if(count($center_id) > 0){
                 $center_box = Center::where('uuid',$uuid)->get()[0];
                 $request['center_id']    = $center_box->id;
+                $request['doctor_id']    = Null;
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    ='expense';
@@ -394,22 +397,22 @@ class TransitionsController extends Controller
 
             }else if($user_is == 2){// Doctor
                 $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
-                   if(count($Center) > 0 ){
-                       $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
-                       if($User_data->center_id == $Center->id){
-                           foreach ($Center->Doctors as $doctor) {
-                               if($Center->id == $doctor->center_id){
-                                   $Doctors = $doctor;
-                                   break;
-                               }
-                           }
-                       return view('transite.doctors_in_center_expanse',['center'=>$Center,'DoctordsData'=>$Doctors]);
-                   }else{
-                       abort(401, 'Access denied - وصول غير مسموح ');
-                   }
-               }else{
-                   abort(401, 'Access denied - وصول غير مسموح ');
-               }
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    if($User_data->center_id == $Center->id){
+                        foreach ($Center->Doctors as $doctor) {
+                            if($Center->id == $doctor->center_id){
+                                $Doctors = $doctor;
+                                break;
+                            }
+                        }
+                        return view('transite.doctors_in_center_expanse',['center'=>$Center,'DoctordsData'=>$Doctors]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
 
             }else if($user_is == 3){// Reception
                 // Not Allowed
@@ -419,8 +422,8 @@ class TransitionsController extends Controller
                 if(count($Center) > 0 ){
                     $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
                     if($User_data->center_id == $Center->id){
-                    $Doctors = $Center->Doctors;
-                    return view('transite.doctors_in_center_expanse',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
+                        $Doctors = $Center->Doctors;
+                        return view('transite.doctors_in_center_expanse',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
                     }else{
                         abort(401, 'Access denied - وصول غير مسموح ');
                     }
@@ -497,18 +500,22 @@ class TransitionsController extends Controller
     // Doctor Money In
     public function DoctorMoneyIn(Request $request,$uuid){
         if($request->isMethod('post')){
-             if(Auth::user()->user_type == 1){
-                 $doctor = Doctor::where('uuid',$uuid)->get()[0];
-                 $center_id = $doctor->center_id; // Center id
-                 $user_id = $doctor->user_id; // User id
-                 $center_id= Center::where('id',$center_id)->get();
-             }else{
-                 $user_id = Auth::user()->id; // user login id
-                 $center_are = Auth::user()->center_id; // Center id
-                 $center_id= Center::where('id',$center_are)->get();
-             }
+            if(Auth::user()->user_type == 1){
+                $doctor = Doctor::where('uuid',$uuid)->get()[0];
+                $center_id = $doctor->center_id; // Center id
+                $user_id = $doctor->user_id; // User id
+                $center_id= Center::where('id',$center_id)->get();
+                $doctor_id = $doctor->id;
+            }else{
+                $user_id = Auth::user()->id; // user login id
+                $center_are = Auth::user()->center_id; // Center id
+                $center_id= Center::where('id',$center_are)->get();
+                $doctor = Doctor::where('uuid',$uuid)->get()[0];
+                $doctor_id = $doctor->id;
+            }
             if(count($center_id) > 0){
-                $request['center_id']    = $center_id[0]->id;
+                $request['center_id']    = Null;
+                $request['doctor_id']    = $doctor_id;
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    = 'income';
@@ -532,22 +539,18 @@ class TransitionsController extends Controller
                             $money = $all;
                             $c_p = ($all*$Doctor_Box->cash_percent)/100;
                             $d_p = $all - $c_p;
-
                             #######################
                             if($doctor < 0 && $d_p + $doctor < 0){ // - -
                                 $doctor = $doctor +$d_p;
                                 $center = $center + $money;
-
                                 $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $center]);
                                 $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $doctor]);
-
                             }else if($doctor < 0 && ($d_p + $doctor) > 0){ // - +
                                 $belal = $d_p + $doctor;
                                 $mohmd = $c_p + $center+ abs($doctor);
                                 $update_moneyBoxC = Center::where('id',$Doctor_Box->center_id)->update(['moneybox' => $mohmd]);
                                 $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $belal]);
-
-                            }elseif($doctor > 0){ // + +
+                            }elseif($doctor >= 0){ // + +
                                 $for_Center = $c_p; //
                                 $for_Doctor = $d_p; //
                                 $add_to_doctor = $Doctor_Box->moneybox+$for_Doctor; //
@@ -660,10 +663,10 @@ class TransitionsController extends Controller
                 $center_id = $doctor->center_id; // Center id
                 $user_id = $doctor->user_id; // User id
                 $center_id= Center::where('id',$center_id)->get();
+                $doctor_id = $doctor->id;
                 /////////////////////////////////////////////////////////
                 $Full_Box = $center_id[0]->moneybox + $doctor->moneybox; // Full Box
                 if($request->howchange > $Full_Box){
-
                     return redirect()->back()->with('MoreThanBox',' ');
                 }
                 /////////////////////////////////////////////////////////
@@ -672,9 +675,12 @@ class TransitionsController extends Controller
                 $user_id = Auth::user()->id; // user login id
                 $center_are = Auth::user()->center_id; // Center id
                 $center_id= Center::where('id',$center_are)->get();
+                $doctor = Doctor::where('uuid',$uuid)->get()[0];
+                $doctor_id = $doctor->id;
             }
             if(count($center_id) > 0){
-                $request['center_id']    = $center_id[0]->id;
+                $request['center_id']    = Null;
+                $request['doctor_id']    = $doctor_id;
                 $request['Amount']       = abs($request->howchange) ;
                 $request['user_id']      = $user_id;
                 $request['Opeartion']    = 'expense';
@@ -692,6 +698,7 @@ class TransitionsController extends Controller
                         $moneybox = $center_id[0]->moneybox; // Center Cash
                         $Doctrbox = $Doctor_Box->moneybox; // Doctor Cash
                         if($request->howchange > $Doctrbox){
+
                             // Take from Center and Doctor
                             $total = abs($request->howchange); // 11050
                             $remove_from_center =  $moneybox - ( $total - $Doctrbox)   ;
@@ -711,9 +718,10 @@ class TransitionsController extends Controller
                             }
 
                         }else{ // Take from Doctor Only
-                            $total = $request->howchange;
-                            $remove_from_doctor = $total - $Doctor_Box->moneybox;
-                            $newdoctor = $Doctor_Box->moneybox - $remove_from_doctor ;
+
+                            $total = abs($request->howchange);
+                            $remove_from_doctor = ( $Doctor_Box->moneybox ) - ( $total)  ;
+                            $newdoctor = $remove_from_doctor ;
                             $update_moneyBoxD = Doctor::where('id',$Doctor_Box->id)->update(['moneybox' => $newdoctor]);
                             $take = null;
                         }
@@ -807,30 +815,32 @@ class TransitionsController extends Controller
     // Browser
     public function Browser(){
 
-            $user_id = Auth::user()->id; // user login id
-            $User_data = User::find($user_id);
-            $rols = $User_data->hasAccess(['search-transition']);
-            if($rols){
-                $user_is = Auth::user()->user_type;
-                if($user_is == 1){// Super Admin
-                    return view('transite.select_to_Search_Trans');
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                return view('transite.select_to_Search_Trans');
 
-                }else if($user_is == 2){// Doctor
+            }else if($user_is == 2){// Doctor
+                return view('transite.select_to_Search_Trans');
 
-                }else if($user_is == 3){// Reception
+            }else if($user_is == 3){// Reception
 
-                }else if($user_is == 4){ //Accounter
+            }else if($user_is == 4){ //Accounter
+                return view('transite.select_to_Search_Trans');
 
-                }
-
-            }else{
-                abort(401, 'Access denied - وصول غير مسموح ');
             }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
 
 
     }
 
-    // Test
+    // Browser Doctor in [center view ]
     public function BrowserView(Request $request){
         if($request->isMethod('post')){
             $user_id = Auth::user()->id; // user login id
@@ -861,4 +871,1086 @@ class TransitionsController extends Controller
         }
 
     }
+
+#################################################################################
+
+    public function DoctorsIn(){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['create-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            $center_is = Auth::user()->center_id;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('id','!=',1)->get();
+                return view('transite.browser.doctor_income',['center'=>$center_is,'CenterData'=>$Center,'admin'=>true]);
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.doctor_income',['center'=>$Center,'CenterData'=>$all_docs]);
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.doctor_income',['center'=>$Center,'CenterData'=>$all_docs]);
+            }
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    // Browser Doctor in [select Doctor ]
+    public function DoctorsInCenter($uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['create-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    $Doctors = $Center->Doctors;
+                    return view('transite.browser.doctors_in_center_income',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    if($User_data->center_id == $Center->id){
+                        foreach ($Center->Doctors as $doctor) {
+                            if($Center->id == $doctor->center_id){
+                                $Doctors = $doctor;
+                                break;
+                            }
+                        }
+                        return view('transite.browser.doctors_in_center_income',['center'=>$Center,'DoctordsData'=>$Doctors]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    if($User_data->center_id == $Center->id){
+                        $Doctors = $Center->Doctors;
+                        return view('transite.browser.doctors_in_center_income',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    // select and view Doctor In
+    public function DoctorsInCenteruuid(Request $request,$uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    if($request->isMethod('post')){
+                        $dates = $request['dates'];
+                        $ex = explode('||',$dates);
+                        $start = trim($ex[0]);
+                        $end = trim($ex[1]);
+                        $trans = Transitions::where([
+                            ['Type','doctor'],
+                            ['Opeartion','income'],
+                            ['doctor_id',$Doctor[0]->id]
+                        ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                        if(count($trans) > 0){
+                            $AllMount = $AllCenter = $AllDoctor =0;
+                            foreach ($trans as $transdata){
+                                $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                if($transdata->patients_id != Null){
+                                    $pation = Patients::find($transdata->patients_id);
+                                    $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                }else{
+                                    $transdata->patients_id = ' لا يوجد ';
+                                }
+                                $user = User::find($transdata->user_id);
+                                if($user->user_type == 2) {
+                                    $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                    $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                }else if($user->user_type == 3){
+                                    $transdata->user_id = ' الاستقبال ' .$user->name;
+                                }else if($user->user_type == 4){
+                                    $transdata->user_id = ' المحاسب ' .$user->name;
+                                }else{
+                                    $transdata->user_id = $user->name;
+                                }
+                                if($Doctor[0]->Type == 'Percent'){
+                                    $all = $transdata->Amount;
+                                    $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                    $ForDoctor = $all - $ForCenter ;
+                                    $transdata->forDoctor = $ForDoctor;
+                                    $transdata->forCenter = $ForCenter;
+                                    $AllCenter = $AllCenter + $ForCenter;
+                                    $AllDoctor = $AllDoctor + $ForDoctor;
+                                }
+                                $AllMount = $AllMount + $transdata->Amount;
+                                $trans->All = $AllMount;
+                                $trans->Center = $AllCenter ;
+                                $trans->Doctor = $AllDoctor ;
+                            }
+                            return view('transite.browser.doctor_in_view',['data'=>$trans]);
+                        }else{
+                            return redirect()->back()->with('nowtrans',' ');
+                        }
+                    }else{
+                        return view('transite.browser.doctor_in_view');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+            }else if($user_is == 2){// Doctor
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    $userare = $Doctor[0]->user_id;
+                    if($userare == $user_id){
+
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','doctor'],
+                                ['Opeartion','income'],
+                                ['doctor_id',$Doctor[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 4){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    if($Doctor[0]->Type == 'Percent'){
+                                        $all = $transdata->Amount;
+                                        $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                        $ForDoctor = $all - $ForCenter ;
+                                        $transdata->forDoctor = $ForDoctor;
+                                        $transdata->forCenter = $ForCenter;
+                                        $AllCenter = $AllCenter + $ForCenter;
+                                        $AllDoctor = $AllDoctor + $ForDoctor;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+                                    $trans->Center = $AllCenter ;
+                                    $trans->Doctor = $AllDoctor ;
+
+
+                                }
+                                return view('transite.browser.doctor_in_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.doctor_in_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    $userare = $Doctor[0]->center_id;
+
+                    if($User_data->center_id == $Doctor[0]->center_id){
+
+
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','doctor'],
+                                ['Opeartion','income'],
+                                ['doctor_id',$Doctor[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    if($Doctor[0]->Type == 'Percent'){
+                                        $all = $transdata->Amount;
+                                        $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                        $ForDoctor = $all - $ForCenter ;
+                                        $transdata->forDoctor = $ForDoctor;
+                                        $transdata->forCenter = $ForCenter;
+                                        $AllCenter = $AllCenter + $ForCenter;
+                                        $AllDoctor = $AllDoctor + $ForDoctor;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+                                    $trans->Center = $AllCenter ;
+                                    $trans->Doctor = $AllDoctor ;
+
+
+                                }
+                                return view('transite.browser.doctor_in_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.doctor_in_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
+    }
+
+
+
+    /// Doctor Out
+    public function DoctorsOut(){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['create-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            $center_is = Auth::user()->center_id;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('id','!=',1)->get();
+                return view('transite.browser.doctor_expance',['center'=>$center_is,'CenterData'=>$Center,'admin'=>true]);
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.doctor_expance',['center'=>$Center,'CenterData'=>$all_docs]);
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.doctor_expance',['center'=>$Center,'CenterData'=>$all_docs]);
+            }
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    // Browser Doctor Out [select Doctor ]
+    public function DoctorsOutCenter($uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['create-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    $Doctors = $Center->Doctors;
+                    return view('transite.browser.doctors_in_center_expance',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    if($User_data->center_id == $Center->id){
+                        foreach ($Center->Doctors as $doctor) {
+                            if($Center->id == $doctor->center_id){
+                                $Doctors = $doctor;
+                                break;
+                            }
+                        }
+                        return view('transite.browser.doctors_in_center_expance',['center'=>$Center,'DoctordsData'=>$Doctors]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::with('Doctors')->where('uuid',$uuid)->get();
+                if(count($Center) > 0 ){
+                    $Center = Center::with('Doctors')->where('uuid',$uuid)->get()[0];
+                    if($User_data->center_id == $Center->id){
+                        $Doctors = $Center->Doctors;
+                        return view('transite.browser.doctors_in_center_expance',['center'=>$Center,'DoctordsData'=>$Doctors,'admin'=>true]);
+                    }else{
+                        abort(401, 'Access denied - وصول غير مسموح ');
+                    }
+                }else{
+                    abort(401, 'Access denied - وصول غير مسموح ');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    public function DoctorsOutCenteruuid(Request $request,$uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    if($request->isMethod('post')){
+                        $dates = $request['dates'];
+                        $ex = explode('||',$dates);
+                        $start = trim($ex[0]);
+                        $end = trim($ex[1]);
+                        $trans = Transitions::where([
+                            ['Type','doctor'],
+                            ['Opeartion','expense'],
+                            ['doctor_id',$Doctor[0]->id]
+                        ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                        if(count($trans) > 0){
+                            $AllMount = $AllCenter = $AllDoctor =0;
+                            foreach ($trans as $transdata){
+                                $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                if($transdata->patients_id != Null){
+                                    $pation = Patients::find($transdata->patients_id);
+                                    $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                }else{
+                                    $transdata->patients_id = ' لا يوجد ';
+                                }
+                                $user = User::find($transdata->user_id);
+                                if($user->user_type == 2) {
+                                    $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                    $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                }else if($user->user_type == 3){
+                                    $transdata->user_id = ' الاستقبال ' .$user->name;
+                                }else if($user->user_type == 4){
+                                    $transdata->user_id = ' المحاسب ' .$user->name;
+                                }else{
+                                    $transdata->user_id = $user->name;
+                                }
+                                if($Doctor[0]->Type == 'Percent'){
+                                    $all = $transdata->Amount;
+                                    $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                    $ForDoctor = $all - $ForCenter ;
+                                    $transdata->forDoctor = $ForDoctor;
+                                    $transdata->forCenter = $ForCenter;
+                                    $AllCenter = $AllCenter + $ForCenter;
+                                    $AllDoctor = $AllDoctor + $ForDoctor;
+                                }
+                                $AllMount = $AllMount + $transdata->Amount;
+                                $trans->All = $AllMount;
+                                $trans->Center = $AllCenter ;
+                                $trans->Doctor = $AllDoctor ;
+
+
+                            }
+
+                            return view('transite.browser.doctor_out_view',['data'=>$trans]);
+                        }else{
+                            return redirect()->back()->with('nowtrans',' ');
+                        }
+                    }else{
+                        return view('transite.browser.doctor_out_view');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+            }else if($user_is == 2){// Doctor
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    $userare = $Doctor[0]->user_id;
+                    if($userare == $user_id){
+
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','doctor'],
+                                ['Opeartion','expense'],
+                                ['doctor_id',$Doctor[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 4){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    if($Doctor[0]->Type == 'Percent'){
+                                        $all = $transdata->Amount;
+                                        $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                        $ForDoctor = $all - $ForCenter ;
+                                        $transdata->forDoctor = $ForDoctor;
+                                        $transdata->forCenter = $ForCenter;
+                                        $AllCenter = $AllCenter + $ForCenter;
+                                        $AllDoctor = $AllDoctor + $ForDoctor;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+                                    $trans->Center = $AllCenter ;
+                                    $trans->Doctor = $AllDoctor ;
+
+
+                                }
+                                return view('transite.browser.doctor_out_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.doctor_out_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Doctor = Doctor::where('uuid',$uuid)->get();
+                if(count($Doctor) > 0){
+                    $userare = $Doctor[0]->center_id;
+
+                    if($User_data->center_id == $Doctor[0]->center_id){
+
+
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','doctor'],
+                                ['Opeartion','expense'],
+                                ['doctor_id',$Doctor[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Doctor[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 4){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    if($Doctor[0]->Type == 'Percent'){
+                                        $all = $transdata->Amount;
+                                        $ForCenter= ($all * $Doctor[0]->cash_percent)/100;
+                                        $ForDoctor = $all - $ForCenter ;
+                                        $transdata->forDoctor = $ForDoctor;
+                                        $transdata->forCenter = $ForCenter;
+                                        $AllCenter = $AllCenter + $ForCenter;
+                                        $AllDoctor = $AllDoctor + $ForDoctor;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+                                    $trans->Center = $AllCenter ;
+                                    $trans->Doctor = $AllDoctor ;
+
+
+                                }
+                                return view('transite.browser.doctor_out_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.doctor_out_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
+    }
+
+#################################################################################
+
+#################################################################################
+
+    public function CenterIn(){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            $center_is = Auth::user()->center_id;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('id','!=',1)->get();
+                return view('transite.browser.center_income',['center'=>$center_is,'CenterData'=>$Center,'admin'=>true]);
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.center_income',['center'=>$Center,'CenterData'=>$all_docs]);
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.center_income',['center'=>$Center,'CenterData'=>$all_docs]);
+            }
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    public function CenterInCenteruuid(Request $request,$uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Center = Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    if($request->isMethod('post')){
+                        $dates = $request['dates'];
+                        $ex = explode('||',$dates);
+                        $start = trim($ex[0]);
+                        $end = trim($ex[1]);
+                        $trans = Transitions::where([
+                            ['Type','center'],
+                            ['Opeartion','income'],
+                            ['center_id',$Center[0]->id]
+                        ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                        if(count($trans) > 0){
+                            $AllMount = 0;
+                            foreach ($trans as $transdata){
+                                $transdata->doctor_id = $Center[0]->doctor_fname;
+                                if($transdata->patients_id != Null){
+                                    $pation = Patients::find($transdata->patients_id);
+                                    $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                }else{
+                                    $transdata->patients_id = ' لا يوجد ';
+                                }
+                                $user = User::find($transdata->user_id);
+                                if($user->user_type == 2) {
+                                    $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                    $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                }else if($user->user_type == 3){
+                                    $transdata->user_id = ' الاستقبال ' .$user->name;
+                                }else if($user->user_type == 4){
+                                    $transdata->user_id = ' المحاسب ' .$user->name;
+                                }else{
+                                    $transdata->user_id = $user->name;
+                                }
+
+                                $AllMount = $AllMount + $transdata->Amount;
+                                $trans->All = $AllMount;
+                            }
+                            return view('transite.browser.center_in_view',['data'=>$trans]);
+                        }else{
+                            return redirect()->back()->with('nowtrans',' ');
+                        }
+                    }else{
+                        return view('transite.browser.center_in_view');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    $userare = $Center[0]->user_id;
+                    if($userare == $user_id){
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','center'],
+                                ['Opeartion','income'],
+                                ['center_id',$Center[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Center[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 4){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+
+                                }
+                                return view('transite.browser.doctor_in_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.center_in_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Center =  Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    $userare = $Center[0]->center_id;
+                    if($User_data->center_id == $Center[0]->id){
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','center'],
+                                ['Opeartion','income'],
+                                ['center_id',$Center[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Center[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+
+
+                                }
+                                return view('transite.browser.center_in_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.center_in_view');
+                        }
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
+    }
+
+
+    public function CenterOut(){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            $center_is = Auth::user()->center_id;
+            if($user_is == 1){// Super Admin
+                $Center = Center::with('Doctors')->where('id','!=',1)->get();
+                return view('transite.browser.center_expance',['center'=>$center_is,'CenterData'=>$Center,'admin'=>true]);
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.center_expance',['center'=>$Center,'CenterData'=>$all_docs]);
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+            }else if($user_is == 4){ //Accounter
+                $Center = Center::find($center_is);
+                $all_docs = ($Center->Doctors())->get();
+                return view('transite.browser.center_expance',['center'=>$Center,'CenterData'=>$all_docs]);
+            }
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+    }
+
+    public function CenterOutCenteruuid(Request $request,$uuid){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['search-transition']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                $Center = Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    if($request->isMethod('post')){
+                        $dates = $request['dates'];
+                        $ex = explode('||',$dates);
+                        $start = trim($ex[0]);
+                        $end = trim($ex[1]);
+                        $trans = Transitions::where([
+                            ['Type','center'],
+                            ['Opeartion','expense'],
+                            ['center_id',$Center[0]->id]
+                        ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                        if(count($trans) > 0){
+                            $AllMount = 0;
+                            foreach ($trans as $transdata){
+                                $transdata->doctor_id = $Center[0]->doctor_fname;
+                                if($transdata->patients_id != Null){
+                                    $pation = Patients::find($transdata->patients_id);
+                                    $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                }else{
+                                    $transdata->patients_id = ' لا يوجد ';
+                                }
+                                $user = User::find($transdata->user_id);
+                                if($user->user_type == 2) {
+                                    $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                    $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                }else if($user->user_type == 3){
+                                    $transdata->user_id = ' الاستقبال ' .$user->name;
+                                }else if($user->user_type == 4){
+                                    $transdata->user_id = ' المحاسب ' .$user->name;
+                                }else{
+                                    $transdata->user_id = $user->name;
+                                }
+
+                                $AllMount = $AllMount + $transdata->Amount;
+                                $trans->All = $AllMount;
+                            }
+                            return view('transite.browser.center_out_view',['data'=>$trans]);
+                        }else{
+                            return redirect()->back()->with('nowtrans',' ');
+                        }
+                    }else{
+                        return view('transite.browser.center_in_view');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+            }else if($user_is == 2){// Doctor
+                $Center = Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    $userare = $Center[0]->user_id;
+                    if($userare == $user_id){
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','center'],
+                                ['Opeartion','expense'],
+                                ['center_id',$Center[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Center[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 4){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+
+                                }
+                                return view('transite.browser.center_out_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.center_out_view');
+                        }
+
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+
+
+            }else if($user_is == 3){// Reception
+                // Not Allowed
+
+            }else if($user_is == 4){ //Accounter
+                $Center =  Center::where('uuid',$uuid)->get();
+                if(count($Center) > 0){
+                    $userare = $Center[0]->center_id;
+                    if($User_data->center_id == $Center[0]->id){
+                        if($request->isMethod('post')){
+                            $dates = $request['dates'];
+                            $ex = explode('||',$dates);
+                            $start = trim($ex[0]);
+                            $end = trim($ex[1]);
+                            $trans = Transitions::where([
+                                ['Type','center'],
+                                ['Opeartion','expense'],
+                                ['center_id',$Center[0]->id]
+                            ])->whereBetween('created_date',[$start,$end])->orderBy('id', 'desc')->get();
+                            if(count($trans) > 0){
+                                $AllMount = $AllCenter = $AllDoctor =0;
+                                foreach ($trans as $transdata){
+                                    $transdata->doctor_id = $Center[0]->doctor_fname;
+                                    if($transdata->patients_id != Null){
+                                        $pation = Patients::find($transdata->patients_id);
+                                        $transdata->patients_id = $pation->username.' '.$pation->user_middel.' '.$pation->lastname;
+                                    }else{
+                                        $transdata->patients_id = ' لا يوجد ';
+                                    }
+                                    $user = User::find($transdata->user_id);
+                                    if($user->user_type == 2) {
+                                        $ok = Doctor::where('user_id', $user->id)->get()[0];
+                                        $transdata->user_id = 'د. ' . $ok->doctor_fname;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' الاستقبال ' .$user->name;
+                                    }else if($user->user_type == 3){
+                                        $transdata->user_id = ' المحاسب ' .$user->name;
+                                    }else{
+                                        $transdata->user_id = $user->name;
+                                    }
+                                    $AllMount = $AllMount + $transdata->Amount;
+                                    $trans->All = $AllMount;
+
+
+                                }
+                                return view('transite.browser.center_out_view',['data'=>$trans]);
+                            }else{
+                                return redirect()->back()->with('nowtrans',' ');
+                            }
+                        }else{
+                            return view('transite.browser.center_out_view');
+                        }
+
+
+                    }else{
+                        abort(401,'Access Denied');
+                    }
+
+                }else{
+                    abort(401,'Access Denied');
+                }
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
+    }
+
+
+#################################################################################
+
+
 }
+

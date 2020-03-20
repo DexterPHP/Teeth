@@ -9,37 +9,8 @@
 @stop
 
 @section('content')
-    <form method="post" dir="rtl">{{csrf_field()}}
 
 
-                <div class="row">
-                    <div class="col-md-12 text-right">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title float-right"> الطبيب</h3>
-
-                            </div>
-                            <div class="card-body text-right">
-                                <div class="form-group">
-                                    <label>نحديد مجال البحث
-                                     البداية || النهاية
-                                    </label>
-
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="far fa-calendar-alt"></i>
-                      </span>
-                                        </div>
-                                        <input type="text" class="form-control float-right" id="reservation" name="dates" />
-                                    </div>
-                                    <!-- /.input group -->
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
         <div class="row">
                     <div class="col-md-6">
                         <div class="card card-primary">
@@ -61,7 +32,7 @@
                                     <div class="icon">
                                         <i class="fas fa-balance-scale-right"></i>
                                     </div>
-                                    <a href="center/income" class="small-box-footer">
+                                    <a href="center/in/" class="small-box-footer">
                                         تنفيذ <i class="fas fa-arrow-circle-down"></i>
                                     </a>
                                 </div>
@@ -75,7 +46,7 @@
                                         <p>صندوق</p>
                                     </div>
 
-                                    <a href="center/expense" class="small-box-footer">
+                                    <a href="center/out" class="small-box-footer">
                                         تنفيذ <i class="fas fa-arrow-circle-up"></i>
                                     </a>
                                 </div>
@@ -106,7 +77,7 @@
                                     <div class="icon">
                                         <i class="fas fa-balance-scale-right"></i>
                                     </div>
-                                    <a href="doctors/income" class="small-box-footer">
+                                    <a href="doctors/in" class="small-box-footer">
                                         تنفيذ <i class="fas fa-arrow-circle-down"></i>
                                     </a>
                                 </div>
@@ -120,7 +91,7 @@
                                     <div class="icon">
                                         <i class="fas fa-balance-scale-left"></i>
                                     </div>
-                                    <a href="doctors/expense" class="small-box-footer">
+                                    <a href="doctors/out" class="small-box-footer">
                                         تنفيذ <i class="fas fa-arrow-circle-up"></i>
                                     </a>
                                 </div>
@@ -133,14 +104,7 @@
                         <!-- /.card -->
                     </div>
                 </div>
-            <div class="row">
-                <div class="col-12">
-                    <a href="#" class="btn btn-secondary">إلغاء</a>
-                    <input type="submit" value="أضف الآن" class="btn btn-success float-right">
 
-                </div>
-            </div>
-    </form>
 @stop
 
 @section('js')
