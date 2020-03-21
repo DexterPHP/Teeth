@@ -824,12 +824,20 @@ class TransitionsController extends Controller
                 return view('transite.select_to_Search_Trans');
 
             }else if($user_is == 2){// Doctor
-                return view('transite.select_to_Search_Trans');
+                $User = Auth::user()->center_id;
+                $u_id = Auth::user()->id;
+                $center = Center::find($User);
+                $doctor = Doctor::where('user_id',$u_id)->get()[0];
+                return view('transite.browser.Main_doctor',['center'=>$center,'doctor'=>$doctor]);
+                //return view('transite.select_to_Search_Trans');
 
             }else if($user_is == 3){// Reception
 
             }else if($user_is == 4){ //Accounter
-                return view('transite.select_to_Search_Trans');
+                $User = Auth::user()->center_id;
+                $center = Center::find($User);
+                return view('transite.browser.Main_accounter',['center'=>$center]);
+                //return view('transite.select_to_Search_Trans');
 
             }
 
@@ -1602,8 +1610,8 @@ class TransitionsController extends Controller
             }else if($user_is == 2){// Doctor
                 $Center = Center::where('uuid',$uuid)->get();
                 if(count($Center) > 0){
-                    $userare = $Center[0]->user_id;
-                    if($userare == $user_id){
+                    $userare = $Center[0]->id;
+                    if($Center[0]->id == $User_data->center_id){
                         if($request->isMethod('post')){
                             $dates = $request['dates'];
                             $ex = explode('||',$dates);
@@ -1808,20 +1816,22 @@ class TransitionsController extends Controller
                             return redirect()->back()->with('nowtrans',' ');
                         }
                     }else{
+
                         return view('transite.browser.center_in_view');
                     }
 
 
-                }else{
+                }else{  dd('ll');
                     abort(401,'Access Denied');
                 }
 
 
             }else if($user_is == 2){// Doctor
+
                 $Center = Center::where('uuid',$uuid)->get();
                 if(count($Center) > 0){
                     $userare = $Center[0]->user_id;
-                    if($userare == $user_id){
+                    if($Center[0]->id == $User_data->center_id){
                         if($request->isMethod('post')){
                             $dates = $request['dates'];
                             $ex = explode('||',$dates);

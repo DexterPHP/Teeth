@@ -58,33 +58,6 @@
 
     @if(isset($data))
         <div class="row">
-
-            <div class="col-md-4 col-sm-6 col-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">للطبيب</span>
-                        <span class="info-box-number">{{$data->Doctor}}</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <div class="col-md-4 col-sm-6 col-12">
-                <div class="info-box">
-                    <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-                    <div class="info-box-content">
-                        <span class="info-box-text">للمركز</span>
-                        <span class="info-box-number">{{$data->Center}}</span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
             <div class="col-md-4 col-sm-6 col-12">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
