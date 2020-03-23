@@ -208,9 +208,68 @@ return [
             ],
         ],
         [
+            'text'    => 'المواعيد',
+            'icon'    => 'fas fa-tasks',
+            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'إضافة موعد',
+                    'url'  => '/dates/choose',
+                    'icon'    => 'fas fa-folder-plus','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
+                ],
+
+                [
+                    'text' => 'اظهار مواعيد طبيب',
+                    'url'  => '/dates/select',
+                    'icon'    => 'fa fa-search','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
+                ],
+
+            ],
+        ],
+        [
+            'text'    => 'السجلات',
+            'icon'    => 'fas fa-folder',
+            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'إضافة سجل',
+                    'url'  => '/records/select',
+                    'icon'    => 'fas fa-folder-plus','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+
+                [
+                    'text' => 'البحث عن سجل',
+                    'url'  => '/records/search',
+                    'icon'    => 'fa fa-search','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+                [
+                    'text' => 'تعديل معلومات سجل',
+                    'url'  => '/records/edit',
+                    'icon'    => 'fas fa-folder-minus','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+            ],
+        ],
+        [
+            'text'    => 'محاسبة',
+            'icon'    => 'fas fa-money-bill',
+            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'عمليات محاسبية ',
+                    'url'  => '/money/select',
+                    'icon'    => 'fas fa-hospital','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+                [
+                    'text' => 'استعراض',
+                    'url'  => '/money/view',
+                    'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+            ],
+        ],
+        [
             'text'    => 'الأطباء',
             'icon'    => 'fa fa-user-md',
-            'permission'  => [ 1=>true, 2=>false, 3=>true, 4=>true ],
+            'permission'  => [ 1=>true, 2=>false, 3=>true, 4=>false ],
             'submenu' => [
                 [
                     'text' => 'إضافة طبيب',
@@ -230,6 +289,7 @@ return [
                 ],
             ],
         ],
+
         [
             'text'    => 'المراكز',
             'icon'    => 'fab fa-fort-awesome',
@@ -276,71 +336,9 @@ return [
                 ],
             ],
         ],
-        [
-            'text'    => 'المحاسبون',
-            'icon'    => 'fas fa-file-invoice-dollar',
-            'permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ],
-            'submenu' => [
-                [
-                    'text' => 'إضافة محاسب',
-                    'url'  => '/accounter/add',
-                    'icon'    => 'fa fa-user-plus','permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ]
-                ],
 
-                [
-                    'text' => 'البحث عن محاسب',
-                    'url'  => '/accounter/search',
-                    'icon'    => 'fa fa-search','permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ]
-                ],
-                [
-                    'text' => 'تعديل معلومات محاسب',
-                    'url'  => '/accounter/edit',
-                    'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ]
-                ],
-            ],
-        ],
-        [
-            'text'    => 'السجلات',
-            'icon'    => 'fas fa-folder',
-            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
-            'submenu' => [
-                [
-                    'text' => 'إضافة سجل',
-                    'url'  => '/records/select',
-                    'icon'    => 'fas fa-folder-plus','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
-                ],
 
-                [
-                    'text' => 'البحث عن سجل',
-                    'url'  => '/records/search',
-                    'icon'    => 'fa fa-search','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
-                ],
-                [
-                    'text' => 'تعديل معلومات سجل',
-                    'url'  => '/records/edit',
-                    'icon'    => 'fas fa-folder-minus','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
-                ],
-            ],
-        ],
-        [
-            'text'    => 'المواعيد',
-            'icon'    => 'fas fa-tasks',
-            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>true ],
-            'submenu' => [
-                [
-                    'text' => 'إضافة موعد',
-                    'url'  => '/dates/choose',
-                    'icon'    => 'fas fa-folder-plus','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
-                ],
 
-                [
-                    'text' => 'اظهار مواعيد طبيب',
-                    'url'  => '/dates/select',
-                    'icon'    => 'fa fa-search','permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ]
-                ],
-
-            ],
-        ],
         [
             'text'    => 'الأمراض',
             'icon'    => 'fas fa-frown' ,
@@ -358,23 +356,7 @@ return [
                 ],
             ],
         ],
-        [
-            'text'    => 'محاسبة',
-            'icon'    => 'fas fa-money-bill',
-            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
-            'submenu' => [
-                [
-                    'text' => 'عمليات محاسبية ',
-                    'url'  => '/money/select',
-                    'icon'    => 'fas fa-hospital','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
-                ],
-                [
-                    'text' => 'استعراض',
-                    'url'  => '/money/view',
-                    'icon'    => 'fa fa-users','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
-                ],
-            ],
-        ],
+
         [
             'text'    => 'اليوزرات',
             'icon'    => 'fas fa-users',

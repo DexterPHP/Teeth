@@ -1,10 +1,10 @@
 @extends('adminlte::page')
 
-@section('title', 'إضافة طبيب جديد')
+@section('title', 'إضافة مرض جديد')
 
 @section('content_header')
 
-    <h1 class="text-center">إضافة طبيب جديد</h1>
+    <h1 class="text-center">إضافة مرض جديد</h1>
 @stop
 
 @section('content')
@@ -17,13 +17,13 @@
             <div class="alert alert-success alert-dismissible text-right">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h5><i class="icon fas fa-check"></i> تمت الإضافة</h5>
-                لقد تمت إضافة المرض بشكل سليم
+                 تمت إضافة المرض
             </div>
         @endif
         @if(session('messageError'))
             <div class="alert alert-warning alert-dismissible text-right">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h5><i class="icon fas fa-check"></i> لم تتم الإضافة </h5>
+                <h5><i class="icon fas fa-check"></i> رسالة خطأ</h5>
                هذا المرض مسجل من قبل
             </div>
         @endif
@@ -40,7 +40,7 @@
                     </div>
                     <div class="card-body  text-right">
                         <div class="form-group">
-                            <label for="inputName">أسم المرض </label>
+                            <label for="inputName">اسم المرض </label>
                             <input type="text" name="title" id="inputName" class="form-control text-right" required>
                         </div>
                         @if(isset($fetch) and $fetch == false)
@@ -66,8 +66,8 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <a href="#" class="btn btn-secondary">إلغاء</a>
-                <input type="submit" value="أضف الآن" class="btn btn-success float-right">
+                <a href="/" class="btn btn-secondary">إلغاء</a>
+                <input type="submit" value="إضافة" class="btn btn-success float-right">
 
             </div>
         </div>
