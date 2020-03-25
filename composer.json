@@ -13,7 +13,9 @@
         "jeroennoten/laravel-adminlte": "^3.0",
         "laravel/framework": "^6.2",
         "laravel/passport": "^8.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "pusher/pusher-php-server": "~3.0",
+        "beyondcode/laravel-websockets":  "^1.4"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

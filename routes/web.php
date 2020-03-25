@@ -233,4 +233,16 @@ Route::prefix('money')->group(function (){
 });
 
 
+// Chat
+Route::prefix('messenger')->group(function (){
+
+    Route::get('/','MessengerController@index')->name('update.item');
+    Route::get('/contacts','MessengerController@contacts')->name('update.item');
+    Route::get('/Conversation/{id}','MessengerController@Conversation')->name('update.item')->middleware('auth');
+
+    Route::post('/Conversation/send','MessengerController@Send')->name('update.item')->middleware('auth');
+
+});
+
+
 

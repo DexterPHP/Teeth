@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','uuid','center_id','user_type'
+        'name', 'email', 'password','uuid','center_id','user_type','profile_image'
     ];
 
     /**
@@ -53,4 +53,9 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    public function CenterUser(){
+        return $this->hasMany('App\Models\Center','id');
+    }
+
 }
