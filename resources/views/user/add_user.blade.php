@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputName">العمر</label>
-                            <input disabled type="text" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
 
                         <div class="form-group">
@@ -176,7 +176,7 @@
             $('#birthday').on('change', function () {
                 var birth = $('#birthday').val();
                 var Newbirth = format(birth);
-                $('#age:disabled').val(getAge(Newbirth));
+                $('#age').val(getAge(Newbirth));
             });
         });
     </script>

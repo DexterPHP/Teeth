@@ -62,7 +62,7 @@
                     </div>
                     <div class="card-body  text-right">
                         <div class="form-group">
-                            <select class="form-control custom-select"  name="priority" id="e1">
+                            <select class="form-control custom-select"  name="patients_id" id="e1">
                                 <option  selected="">مريض غير مسجل  </option>
                                @if(isset($pations))
                                     @foreach($pations as $fom)

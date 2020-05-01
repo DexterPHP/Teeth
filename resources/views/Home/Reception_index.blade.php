@@ -15,5 +15,6 @@
 @stop
 
 @section('js')
+    <script type="text/javascript" src="{{asset("js/dashboard.js")}}" ></script>
 
 @stop

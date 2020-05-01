@@ -97,7 +97,7 @@ class RecordController extends Controller
                     $Pation_data = Patients::where('uuid',$id)->first();
                     // Doctor Data
                     $doctor = Doctor::where('user_id',$user_id)->first();
-                    if($doctor->id == $Pation_data->id){
+                    if($doctor->id == $Pation_data->doctors_id){
                         // Doctors
                         $Doctor = Doctor::where('id',$doctor['id'])->get();
                         // Labs
@@ -105,6 +105,7 @@ class RecordController extends Controller
                         return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs]);
 
                     }else{
+
                         abort(401, 'Access denied - وصول غير مسموح ');
                     }
                 }else if($user_is == 3){// Reception

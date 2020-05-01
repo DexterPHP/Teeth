@@ -262,5 +262,6 @@
 @stop
 
 @section('js')
-    <script type="text/javascript" src="https://adminlte.io/themes/dev/AdminLTE/dist/js/pages/dashboard3.js"></script>
+    <script type="text/javascript" src="{{asset("js/dashboard3.js")}}" ></script>
+
 @stop

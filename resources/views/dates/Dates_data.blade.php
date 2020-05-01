@@ -61,7 +61,7 @@
                 </div>
                 <div class="card-body  text-right">
                     <div class="form-group">
-                        <select class="form-control custom-select"  name="priority" id="e1">
+                        <select class="form-control custom-select"  name="patients_id" id="e1" >
                             <option {{ $viewData->patients_id == Null ? 'selected="selected"' : ''  }}>مريض غير مسجل  </option>
                             @if(isset($allPeation))
                                 @foreach($allPeation as $fom)

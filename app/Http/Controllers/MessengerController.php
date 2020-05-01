@@ -13,6 +13,7 @@ class MessengerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');// should Have an Account
+
     }
 
     public function index()

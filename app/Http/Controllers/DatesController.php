@@ -50,18 +50,14 @@ class DatesController extends Controller
         }else{
             abort(401, 'Access denied - وصول غير مسموح ');
         }
-
-
-
-
     }
 
 
     public function addMetting(Request $request,$id){
         if($request->isMethod('post')){
             $data = $request->all();
-            $start_time = date('H:i:s', strtotime($data['start_time']));
-            $left_time = date('H:i:s', strtotime($data['left_time']));
+            $start_time = date('H:i', strtotime($data['start_time']));
+            $left_time = date('H:i', strtotime($data['left_time']));
             $data['start_time'] = $start_time;
             $data['left_time']  = $left_time;
             if($data['priority'] == 3){$data['priority'] ='#dc3545';}
@@ -69,8 +65,8 @@ class DatesController extends Controller
             else if($data['priority'] == 2){$data['priority'] ='#ffc107';}
             else                           {$data['priority'] ='#17a2b8';}
 
-            // if ( $data['what_date'] < date('Y-m-d')  ){return redirect()->back()->with('DateError',' ');}// Check Date
-            if ( $start_time < date('H:i:s')  ){return redirect()->back()->with('DateErrorTime',' ');}// Check time
+            if ( $data['what_date'] < date('Y-m-d')  ){return redirect()->back()->with('DateError',' ');}// Check Date
+            if ( $start_time < date('H:i')  ){return redirect()->back()->with('DateErrorTime',' ');}// Check time
             if($left_time < $start_time) { return redirect()->back()->with('timeoutare',' ');}
             else{
 
@@ -82,6 +78,7 @@ class DatesController extends Controller
                     Dates::create($data);
                     return redirect()->back()->with('message',' ');
                 }else{
+
                     return redirect()->back()->with('messageError',' ');
 
                 }
@@ -99,8 +96,8 @@ class DatesController extends Controller
     {
         if($request->isMethod('post')){
             $data = $request->all();
-            $start_time = date('H:i:s', strtotime($data['start_time']));
-            $left_time = date('H:i:s', strtotime($data['left_time']));
+            $start_time = date('H:i', strtotime($data['start_time']));
+            $left_time = date('H:i', strtotime($data['left_time']));
             $data['start_time'] = $start_time;
             $data['left_time']  = $left_time;
             if($data['priority'] == 3){$data['priority'] ='#dc3545';}
@@ -108,12 +105,18 @@ class DatesController extends Controller
             else if($data['priority'] == 2){$data['priority'] ='#ffc107';}
             else                           {$data['priority'] ='#17a2b8';}
             if ( $data['what_date'] < date('Y-m-d')  ){return redirect()->back()->with('DateError',' ');}// Check Date
-            if ( $start_time < date('H:i:s')  ){return redirect()->back()->with('DateErrorTime',' ');}// Check time
-            if($left_time < $start_time) { return redirect()->back()->with('timeoutare',' ');}
-            $xx = Dates::where([['what_date','like','%'.$data['what_date'].'%'],['doctor_id',$data['doctor_id']]])->whereTime('start_time', '>=', $start_time)->whereTime('start_time', '<=' , $left_time)->get();
+            //if ( $start_time < date('H:i')  ){dd($start_time , date('H:i'));return redirect()->back()->with('DateErrorTime',' ');}// Check time
+            if($left_time < $start_time) {return redirect()->back()->with('timeoutare',' ');}
+            $xx = Dates::where([['what_date','like','%'.$data['what_date'].'%'],['doctor_id',$data['doctor_id']]])
+                ->whereTime('start_time', '>=', $start_time)
+                ->whereTime('start_time', '<=' , $left_time)
+                ->where('uuid', '!=' , $id)
+                ->get();
+
             $number_of_data = count($xx);
             if($number_of_data < 1){
                 $this_dates = Dates::where('uuid',$id)->first();
+
                 $this_dates->update($data);
                 return redirect()->back()->with('message',' ');
             }else{
