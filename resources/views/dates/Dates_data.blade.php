@@ -130,7 +130,7 @@
 @endif
 @stop
 @section('css')
-    <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
 @endsection
 @section('js')
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -138,20 +138,19 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+    <script type="text/javascript" src="{{asset('js/jquery-2.1.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/moment-with-locales.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.js')}}"></script>
     <script  type="text/javascript">
         $(function () {
             $('#datetimepicker3,#timepicker').datetimepicker({
                 format: 'LT'
             });
         });
-
-
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="{{asset('js/select2.min.js')}}"></script>
     <script  type="text/javascript">
         $(function () {$("#e1").select2();});
     </script>
