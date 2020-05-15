@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Center;
 use App\Models\Doctor;
+use App\Models\Record;
 use App\Models\Transitions;
 use App\User;
 use App\user\Patients;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
+
 /*
 use PhpParser\Comment\Doc;
 use function GuzzleHttp\Promise\all;
@@ -582,6 +585,22 @@ class TransitionsController extends Controller
                     }
                     // Commit Transaction
                     DB::commit();
+                    if(Session::has('Record')){
+                        $record_session  = Session::get('Record');
+                        $record_data = [
+                            'patient_id' => $record_session['patient_id'],
+                            'doctor_id' => $record_session['doctor_id'],
+                            'set_total' => $record_session['set_total'],
+                            'set_payment' => $record_session['set_payment'],
+                            'teeth_lab' => $record_session['teeth_lab'],
+                            'set_note' => $record_session['set_note'],
+                            'teeth_work_name' => $record_session['teeth_work_name'],
+                            'working_teeth' => $record_session['working_teeth'],
+                            'uuid' => $record_session['uuid']
+                        ];
+                        $cread = Record::create($record_data);
+                        Session::forget('Record');
+                    }
                     return redirect()->back()->with('Greate',' ');
                 }catch (\Exception $e) {
                     dd('1',$e);
@@ -595,7 +614,8 @@ class TransitionsController extends Controller
                 abort(401, 'Access denied - وصول غير مسموح ');
             }
 
-        }else{
+        }
+        else{
             $user_id = Auth::user()->id; // user login id
             $User_data = User::find($user_id);
             $rols = $User_data->hasAccess(['create-transition']);

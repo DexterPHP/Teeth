@@ -9,7 +9,7 @@ class Patients extends Model
     protected $primaryKey="id";
     protected $fillable=[
         'id','username','lastname','birthday','user_age','user_login','gender','user_mobile', 'user_middel',
-        'shoug','depress','smoking', 'notes','medical_notes','doctors_id','user_image','card_number','uuid'
+        'shoug','depress','smoking', 'notes','medical_notes','doctors_id','user_image','card_number','uuid','patient_box'
     ];
 
     public function MainDoctor(){

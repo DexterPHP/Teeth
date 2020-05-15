@@ -190,7 +190,7 @@ Route::prefix('money')->group(function (){
     Route::get('/doctors/expense/{uuid}','TransitionsController@ViewDoctoeCenterexpense')->name('out'); // Doctor سحب
     Route::get('/doctors/income/{uuid}','TransitionsController@ViewDoctoeCenterincome')->name('in');; // Doctor أيداع
     // Doctor Money In
-    Route::get('/doctors/income/push/{uuid}','TransitionsController@DoctorMoneyIn')->name('in');; // Doctor أيداع
+    Route::get('/doctors/income/push/{uuid}','TransitionsController@DoctorMoneyIn')->name('add_money');; // Doctor أيداع
     Route::post('/doctors/income/push/{uuid}','TransitionsController@DoctorMoneyIn')->name('in');; // Doctor أيداع
     // Doctor Money Out
     Route::get('/doctors/expense/pull/{uuid}','TransitionsController@DoctorMoneyOut')->name('in');; // Doctor أيداع

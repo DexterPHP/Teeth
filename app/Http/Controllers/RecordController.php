@@ -6,9 +6,10 @@ use App\Models\Doctor;
 use App\Models\Labs;
 use App\Models\Record;
 use App\User;
-use App\user\Patients;
+use App\Models\Patients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use PhpParser\Comment\Doc;
 
@@ -68,6 +69,8 @@ class RecordController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
+     * @param $id
      * @return \Illuminate\Http\Response
      */
     public function add(Request $request,$id)
@@ -75,8 +78,28 @@ class RecordController extends Controller
         if($request->isMethod('post')){
             $uuid = Str::uuid()->toString();
             $request['uuid'] = $uuid;
-            $cread = Record::create($request->all());
-            return redirect()->back()->with('message', ' ');
+            $Pation_data = Patients::where('uuid',$id)->first();
+            $patient_box = $Pation_data->patient_box;   // Box
+            $total = $request['set_total']; // All
+            $rest  = $request['set_payment']; // Part
+          /*  $difrn = $total - $rest;
+            if($total < $rest and $patient_box >= 0){
+                return redirect()->back()->with('totalError',' ');
+
+            }
+            $patient_box_new  = ($Pation_data->patient_box) + $difrn;
+
+            if(isset($cread)){
+                $update_pation = $Pation_data->update(['patient_box'=> $patient_box_new]);
+            }*/
+            $doc_uuid = Doctor::find($request['doctor_id'])->uuid;
+            $request['dotor_uuid'] = $doc_uuid;
+            $request['Pation_uuid'] = $id;
+            Session::put('Record',$request->all());
+            //$cread = Record::create($request->all());
+            //return redirect()->back()->with('message', ' ');
+            return redirect()->route('add_money',$doc_uuid);
+
 
         }else{
             $user_id = Auth::user()->id; // user login id

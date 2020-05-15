@@ -28,7 +28,7 @@ class CreateTransitionsTable extends Migration
             $table->foreign('center_id')->references('id')->on('centers');
             $table->foreign('doctor_id')->references('id')->on('doctors');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('patients_id')->references('id')->on('patients');
+            $table->foreign('patients_id')->references('id')->on('patients')->onDelete(null);
             $table->timestamps();
         });
     }

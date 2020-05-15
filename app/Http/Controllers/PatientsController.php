@@ -138,10 +138,12 @@ class PatientsController extends Controller
                 //$all = Models\Patients::where('doctors_id',$user_id)->get();
                 $this_center = Auth::user()->center_id;
                 $all = Models\Patients::all();
+                
                 foreach ($all as $patients) {
                     $get_dotors_in_center = Models\Doctor::where('center_id',$this_center)->get();
                    foreach ($get_dotors_in_center as $dotorz){
-                       if($patients->id == $dotorz->id){
+                       if($patients->doctors_id == $dotorz->id){
+                           
                            array_push($data,$patients);
                        }
                    }

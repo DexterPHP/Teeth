@@ -3,6 +3,10 @@
 @section('title', 'إضافة مبلغ في حساب طبيب ')
 
 @if(isset($DoctorData))
+
+    @if(Session::has('Record'))
+        @php $record = Session::get('Record'); @endphp
+    @endif
 @section('content_header')
     <h1 class="text-center">أيداع مال في حساب طبيب
     <b class="text-danger">{{$DoctorData->doctor_fname}}</b>
@@ -14,6 +18,11 @@
     <h4 class="text-center">نوع العملية الحسابية
         <b class="text-blue">أيداع</b>
     </h4>
+    @if(Session::has('Record'))
+        <h4 class="text-center">العملية تابعة لسجل
+            <b class="text-blue">لن يتم حفظ السجل مالم يتم خزين الدفعة</b>
+        </h4>
+    @endif
 
 
 @stop
@@ -55,7 +64,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">ليرة سورية</span>
                                 </div>
-                                <input type="number" name="howchange" id="inputName" class="form-control text-right" required>
+                                <input type="text" value="@if(isset($record)){{trim($record['set_payment'])}}@endif" name="howchange" id="inputName" class="form-control text-right" required>
+
                                 <div class="input-group-append">
                                     <span class="input-group-text">.00</span>
                                     <input type="hidden" value="{{$DoctorData->uuid}}" name="center_id" />
@@ -68,7 +78,9 @@
                                 <option  disabled>الرجاء الأختيار</option>
                                 <option value="">لا يوجد</option>
                                 @foreach($Patiens as $Patien)
-                                    <option value="{{$Patien->id}}" >{{$Patien->username}} {{$Patien->user_middel}} {{$Patien->lastname}}</option>
+                                    <option
+                                        @if(isset($record['set_payment']) and $record['patient_id'] == $Patien->id) selected @endif
+                                        value="{{$Patien->id}}" >{{$Patien->username}} {{$Patien->user_middel}} {{$Patien->lastname}}</option>
                                 @endforeach
                             </select>
                         </div>

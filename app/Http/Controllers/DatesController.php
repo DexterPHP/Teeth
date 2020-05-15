@@ -65,8 +65,8 @@ class DatesController extends Controller
             else if($data['priority'] == 2){$data['priority'] ='#ffc107';}
             else                           {$data['priority'] ='#17a2b8';}
 
-            if ( $data['what_date'] < date('Y-m-d')  ){return redirect()->back()->with('DateError',' ');}// Check Date
-            if ( $start_time < date('H:i')  ){return redirect()->back()->with('DateErrorTime',' ');}// Check time
+            //if ( $data['what_date'] < date('Y-m-d')  ){return redirect()->back()->with('DateError',' ');}// Check Date
+            //if ( $start_time < date('H:i')  ){return redirect()->back()->with('DateErrorTime',' ');}// Check time
             if($left_time < $start_time) { return redirect()->back()->with('timeoutare',' ');}
             else{
 

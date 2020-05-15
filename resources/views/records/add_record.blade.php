@@ -18,6 +18,13 @@
                 لقد تمت إضافة سجل جديد للمريض بشكل سليم
             </div>
         @endif
+        @if(session('totalError'))
+            <div class="alert alert-danger alert-dismissible text-right">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-eraser"></i>خطأ </h5>
+                رصيد المريض موجب وانت تدخل دفعة أكبر من المبلغ المطلوب
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-primary">
@@ -34,7 +41,6 @@
                             <label for="inputName">أسم المريض </label>
                             <input type="text"  value="{{$user_data->username}} {{$user_data->user_middel}} {{$user_data->lastname}}" id="inputName" class="form-control text-right" disabled required>
                             <input type="hidden" name="patient_id" value="{{$user_data->id}}" />
-
                         </div>
 
                         <div class="form-group">
@@ -46,6 +52,18 @@
                             <label for="inputEstimatedBudget">اسم العمل </label>
                             <input type="tel" name="working_teeth" id="inputEstimatedBudget" class="form-control" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="inputStatus">الطبيب</label>
+                            <select class="form-control custom-select" name="doctor_id" id="e1">
+                                <option  disabled>الرجاء الأختيار</option>
+                                @foreach($doctor_data as $doctor)
+                                    <option {{ ($user_data->doctors_id) == $doctor->id ? 'selected' : '' }} value="{{$doctor->id}}" >{{$doctor->doctor_fname}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
 
 
 
@@ -64,14 +82,20 @@
                         </div>
                     </div>
                     <div class="card-body text-right">
+
                         <div class="form-group">
-                            <label for="inputStatus">الطبيب</label>
-                            <select class="form-control custom-select" name="doctor_id" id="e1">
-                                <option  disabled>الرجاء الأختيار</option>
-                                @foreach($doctor_data as $doctor)
-                                    <option {{ ($user_data->doctors_id) == $doctor->id ? 'selected' : '' }} value="{{$doctor->id}}" >{{$doctor->doctor_fname}}</option>
-                                @endforeach
-                            </select>
+                            <label for="inputName"> ملاحظة</label>
+                            <input type="text" name="set_note" id="inputName" class="form-control text-right" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">المبلغ المطلوب</label>
+                            <input type="number"  name="set_total" id="inputName" min="0" class="form-control text-right" placeholder="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">الدفعة</label>
+                            <input type="number" name="set_payment" min="0" id="inputName" class="form-control text-right" placeholder="0" required>
                         </div>
 
                         <div class="form-group">
@@ -82,12 +106,6 @@
                                     <option value="{{$labs->id}}" >{{$labs->lab_name}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputName"> ملاحظة</label>
-                            <input type="text" name="set_note" id="inputName" class="form-control text-right" required>
-                            <input type="hidden" value="0" name="set_payment"   class="form-control text-right" required>
-                            <input type="hidden" value="0" name="set_total"   class="form-control text-right" required>
                         </div>
 
 

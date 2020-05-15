@@ -35,6 +35,7 @@ class CreatePatientsTable extends Migration
             $table->string('card_number')->nullable();
             $table->bigInteger('doctors_id')->unsigned();
             $table->string('user_image')->nullable();
+            $table->integer('patient_box')->default(0);
             $table->timestamps();
             $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('CASCADE');
         });
