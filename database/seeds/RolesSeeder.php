@@ -28,6 +28,7 @@ class RolesSeeder extends Seeder
                 'create-record'     => true,
                 'create-diseases'   => true,
                 'create-transition' => true,
+                'create-treatments' => true,
                 // [ Edit Roles ]
                 'edit-user'       => true,
                 'edit-center'     => true,
@@ -39,6 +40,7 @@ class RolesSeeder extends Seeder
                 'edit-record'     => true,
                 'edit-diseases'   => true,
                 'edit-transition' => true,
+                'edit-treatments' => true,
                 // [ Search Roles ]
                 'search-user'       => true,
                 'search-center'     => true,
@@ -49,7 +51,8 @@ class RolesSeeder extends Seeder
                 'search-lab'        => true,
                 'search-record'     => true,
                 'search-diseases'   => true,
-                'search-transition' => true
+                'search-transition' => true,
+                'search-treatments' => true
             ]),
         ]);
         // Doctor Roles
@@ -68,6 +71,7 @@ class RolesSeeder extends Seeder
                 'create-record'     => true,
                 'create-diseases'   => true,
                 'create-transition' => true,
+                'create-treatments' => true,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -79,6 +83,7 @@ class RolesSeeder extends Seeder
                 'edit-record'     => true,
                 'edit-diseases'   => true,
                 'edit-transition' => false,
+                'edit-treatments' => true,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -89,7 +94,8 @@ class RolesSeeder extends Seeder
                 'search-lab'        => true,
                 'search-record'     => true,
                 'search-diseases'   => true,
-                'search-transition' => true
+                'search-transition' => true,
+                'search-treatments' => true
             ]),
         ]);
 
@@ -109,6 +115,7 @@ class RolesSeeder extends Seeder
                 'create-record'     => false,
                 'create-diseases'   => true,
                 'create-transition' => false,
+                'create-treatments' => false,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -120,6 +127,7 @@ class RolesSeeder extends Seeder
                 'edit-record'     => false,
                 'edit-diseases'   => false,
                 'edit-transition' => false,
+                'edit-treatments' => false,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -130,7 +138,8 @@ class RolesSeeder extends Seeder
                 'search-lab'        => false,
                 'search-record'     => false,
                 'search-diseases'   => true,
-                'search-transition' => false
+                'search-transition' => false,
+                'search-treatments' => false
             ]),
         ]);
 
@@ -150,6 +159,7 @@ class RolesSeeder extends Seeder
                 'create-record'     => true,
                 'create-diseases'   => false,
                 'create-transition' => true,
+                'create-treatments' => true,
                 // [ Edit Roles ]
                 'edit-user'       => false,
                 'edit-center'     => false,
@@ -161,6 +171,7 @@ class RolesSeeder extends Seeder
                 'edit-record'     => true,
                 'edit-diseases'   => false,
                 'edit-transition' => false,
+                'edit-treatments' => true,
                 // [ Search Roles ]
                 'search-user'       => false,
                 'search-center'     => false,
@@ -171,7 +182,8 @@ class RolesSeeder extends Seeder
                 'search-lab'        => false,
                 'search-record'     => true,
                 'search-diseases'   => false,
-                'search-transition' => true
+                'search-transition' => true,
+                'search-treatments' => true
             ]),
         ]);
     }

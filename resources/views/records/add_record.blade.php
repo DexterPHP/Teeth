@@ -48,10 +48,18 @@
                             <input type="tel" name="teeth_work_name"  id="inputEstimatedBudget" class="form-control" required>
                         </div>
 
+
                         <div class="form-group">
-                            <label for="inputEstimatedBudget">اسم العمل </label>
-                            <input type="tel" name="working_teeth" id="inputEstimatedBudget" class="form-control" required>
+                            <label for="inputEstimatedBudget">   اسم العمل [ نوع المعالجة] </label>
+                            <select class="form-control custom-select" name="working_teeth" id="e1">
+                                <option  disabled>الرجاء الأختيار</option>
+                                @foreach($Treatment as $Treatmente)
+                                    <option value="{{$Treatmente->id}}" >{{$Treatmente->title}} [ {{ $Treatmente->price  }} ]</option>
+                                @endforeach
+                            </select>
                         </div>
+
+
 
                         <div class="form-group">
                             <label for="inputStatus">الطبيب</label>

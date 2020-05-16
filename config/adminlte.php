@@ -380,6 +380,30 @@ return [
                 ],
             ],
         ],
+        [
+            'text'    => 'المعالجات',
+            'icon'    => 'fas fa-tooth',
+            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'إضافة',
+                    'url'  => '/Treatment/add',
+                    'icon'    => 'fas fa-teeth-open','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>false ]
+
+                ],
+
+                [
+                    'text' => 'عرض المعالجات',
+                    'url'  => '/Treatment/search',
+                    'icon'    => 'fa fa-teeth','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+                [
+                    'text' => 'تعديل',
+                    'url'  => '/Treatment/edit',
+                    'icon'    => 'fa fa-stethoscope','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>false ]
+                ],
+            ],
+        ],
     ],
 
     /*

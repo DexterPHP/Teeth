@@ -225,10 +225,18 @@ Route::prefix('money')->group(function (){
     Route::get('/center/out/{uuid}','TransitionsController@CenterOutCenteruuid'); //
     Route::post('/center/out/{uuid}','TransitionsController@CenterOutCenteruuid'); //
 
+});
 
+// Chat
+Route::prefix('Treatment')->group(function (){
 
+    Route::get('/add','TreatmentController@add')->name('add.Treatment');
+    Route::post('/add','TreatmentController@add')->name('add.Treatment');
 
+    Route::get('/contacts','TreatmentController@contacts')->name('update.item');
+    Route::get('/Conversation/{id}','TreatmentController@Conversation')->name('update.item')->middleware('auth');
 
+    Route::post('/Conversation/send','TreatmentController@Send')->name('update.item')->middleware('auth');
 
 });
 

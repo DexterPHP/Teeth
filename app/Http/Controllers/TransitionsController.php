@@ -606,7 +606,7 @@ class TransitionsController extends Controller
                     dd('1',$e);
                     // Rollback Transaction
                     DB::rollback();
-                    return redirect()->back()->with('WithError'.' ');
+                    return redirect()->back()->with('WithError',' ');
                 }
             }else{
 

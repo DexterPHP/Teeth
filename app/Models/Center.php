@@ -21,5 +21,8 @@ class Center extends Model
     public function Diseases(){
         return $this->hasMany('App\Models\Diseases','center_id');
     }
+    public function Treatment(){
+        return $this->hasMany('App\Models\Treatment','center_id');
+    }
 
 }

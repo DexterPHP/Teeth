@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Center;
 use App\Models\Doctor;
 use App\Models\Labs;
 use App\Models\Record;
+use App\Models\Treatment;
 use App\User;
 use App\Models\Patients;
 use Illuminate\Http\Request;
@@ -104,6 +106,9 @@ class RecordController extends Controller
         }else{
             $user_id = Auth::user()->id; // user login id
             $User_data = User::find($user_id);
+            ////// Treatment
+            $Treatment = Center::find($User_data->center_id)->Treatment;
+            ///// Treatment
             $rols = $User_data->hasAccess(['create-record']);
             if($rols){
                 $user_is = Auth::user()->user_type;
@@ -114,7 +119,7 @@ class RecordController extends Controller
                     $Doctor = Doctor::all();
                     // Labs
                     $Labs = Labs::all();
-                    return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs]);
+                    return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs,'Treatment'=>$Treatment]);
                 }else if($user_is == 2){// Doctor
                     // Pation
                     $Pation_data = Patients::where('uuid',$id)->first();
@@ -125,7 +130,7 @@ class RecordController extends Controller
                         $Doctor = Doctor::where('id',$doctor['id'])->get();
                         // Labs
                         $Labs = Labs::all();
-                        return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs]);
+                        return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs,'Treatment'=>$Treatment]);
 
                     }else{
 
@@ -144,7 +149,7 @@ class RecordController extends Controller
                         $Doctor = Doctor::where('id',$Pation_data->doctors_id)->get();
                         // Labs
                         $Labs = Labs::all();
-                        return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs]);
+                        return view('records.add_record',['user_data'=>$Pation_data,'doctor_data'=>$Doctor,'lab'=>$Labs,'Treatment'=>$Treatment]);
                     }
                 }
 
