@@ -43,9 +43,16 @@
                             <input type="hidden" name="patient_id" value="{{$user_data->id}}" />
                         </div>
 
+                        <!--
                         <div class="form-group">
                             <label for="inputEstimatedBudget">السن   </label>
-                            <input type="tel" name="teeth_work_name"  id="inputEstimatedBudget" class="form-control" required>
+                            <input type="text" readonly name="teeth_work_name"  id="Teethes" class="form-con" required>
+                        </div>
+                        -->
+
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">السن   </label>
+                            <textarea readonly name="teeth_work_name"  id="Teethes" class="form-control" required style="resize: none;"></textarea>
                         </div>
 
 
@@ -131,6 +138,8 @@
             </div>
         </div>
     </form>
+
+    @include('records.Teethes')
     @endif
 @stop
 

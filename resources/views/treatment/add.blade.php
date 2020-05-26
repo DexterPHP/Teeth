@@ -50,7 +50,7 @@
                             <input type="number" min="0" name="price" id="inputName" class="form-control text-left" required>
                         </div>
 
-                    @if(isset($Admin) and $Admin = true)
+                    @if(isset($Admin) and $Admin == true)
 
                             <div class="form-group">
                                 <label for="inputStatus">المركز</label>
@@ -61,11 +61,12 @@
                                      @endforeach
                                  </select>
                             </div>
-                        </div>
+
                     @else
                         <input type="hidden" name="center_id" value="{{ $center }}" />
                     @endif
                     <!-- /.card-body -->
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>

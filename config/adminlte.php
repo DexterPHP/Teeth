@@ -388,7 +388,7 @@ return [
                 [
                     'text' => 'إضافة',
                     'url'  => '/Treatment/add',
-                    'icon'    => 'fas fa-teeth-open','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>false ]
+                    'icon'    => 'fas fa-teeth-open','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
 
                 ],
 

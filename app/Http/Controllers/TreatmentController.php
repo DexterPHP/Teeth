@@ -32,7 +32,6 @@ class TreatmentController extends Controller
                 $done = Treatment::create($request->all());
                 return redirect()->back()->with('Greate',' ');
             }
-
         }else{
             $user_id =  Auth::user()->id; // user login id
             $User_data = User::find($user_id);
@@ -51,7 +50,7 @@ class TreatmentController extends Controller
                     abort(401, 'Access denied - وصول غير مسموح ');
                 }else if($user_is == 4){ //Accounter
                     $center = $User_data->center_id;
-                    return view('treatment.add.Treatment',['Admin'=>false,'center'=>$center]);
+                    return view('treatment.add',['Admin'=>false,'center'=>$center]);
 
                 }
 
