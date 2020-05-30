@@ -36,7 +36,8 @@
                         <div class="form-group">
 
                             <select class="form-control custom-select text-right" name="doctors_id" id="e1" required>
-                                <option selected disabled>الرجاء الإختيار</option>
+                                <option  disabled >الرجاء الإختيار</option>
+
                                 @foreach($doctors as $doctor)
                                     <option  value="{{$doctor->id}}">{{$doctor->doctor_fname}}</option>
                                 @endforeach
@@ -63,14 +64,14 @@
                             <label for="inputName">أسم المريض </label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['username']}}@endif" name="username" id="inputName" class="form-control text-right" required>
                         </div>
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label for="inputName"> الكنية</label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['lastname']}}@endif" name="lastname" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputName">أسم الأب </label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_middel']}}@endif" name="user_middel" id="inputName" class="form-control text-right" required>
-                        </div>
+                        </div>--}}
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
                             <input type="date"  value="@if(session('_old_input')){{session('_old_input')['birthday']}}@endif" name="birthday" id="birthday" class="form-control" required>

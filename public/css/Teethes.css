@@ -3,7 +3,7 @@
 .closeTooth{ position: absolute; width: 50px; height: 50px; display: block; top: 23px; color: #fff; right: 14px; cursor: pointer; }
 .closeTooth i{ color:#fff; font-size: 40px}
 .UP  { display:block; width:100%; height:50%;    background: #fff;border-radius: 30px 30px 0px 0px;padding: 25px 0 0 10px;    margin-top: 25px;}
-.Down{ display:block;  width:100%; height:40%;    background: #fff;border-radius: 0px 0px 30px 30px;padding: 25px 0 0 10px;}
+.Down{ display:block;  width:100%; height:45%;    background: #fff;border-radius: 0px 0px 30px 30px;padding: 25px 0 0 10px;}
 .UP img,.Down img{ display:none ;}
 .teeth {display: inline-block;     background: #523f3f30;}
 .upl1 { background:url('/teethes/upl1.png'); width:70px; height:182px; display: inline-block;  }
@@ -43,7 +43,7 @@
 .dor8 { background:url('/teethes/dor8.png'); width:70px; height:182px; display: inline-block;  }
 
 .tooth{color:#fff;text-align: center; position: absolute; top: 17px; right: 42%;}
-.selectTeeth { border: 2px solid #007bff; }
+.selectTeeth { /*border: 2px solid #007bff;*/ background-color: #20202038; border-radius: 15px; box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); } }
 
 [data-title]:hover:after {opacity: 1;transition: all 0.1s ease 0.5s;visibility: visible;}
 [data-title] {position: relative;}

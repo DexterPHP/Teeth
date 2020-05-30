@@ -34,9 +34,10 @@
 
                             </div>
 
+
                             <div class="form-group">
                                 <label for="inputEstimatedBudget">السن   </label>
-                                <input type="tel" value="{{$TheRecord->teeth_work_name}}" name="teeth_work_name"  id="inputEstimatedBudget" class="form-control" required>
+                                <textarea readonly name="teeth_work_name"  id="Teethes" class="form-control" required style="resize: none;">{{trim($TheRecord->teeth_work_name)}}</textarea>
                             </div>
 
                             <div class="form-group">
@@ -66,8 +67,8 @@
                             <div class="form-group">
                                 <label for="inputStatus">الطبيب</label>
 
-                                <input type="text"  value="{{$TheRecord->Doctor_data->doctor_fname}}" id="inputName" class="form-control text-right" disabled required>
-                                <input type="hidden" name="doctor_id" value="{{$TheRecord->Doctor_data->id}}" />
+                                <input type="text"  value="{{$doctor['doctor_fname']}}" id="inputName" class="form-control text-right" disabled required>
+                                <input type="hidden" name="doctor_id" value="{{$doctor['id']}}" />
 
                             </div>
                             <div class="form-group">
@@ -113,7 +114,7 @@
         {{$TheRecord->created_at->format('H:i')}}
     </h1>
 @stop
-
+@include('records.Teethes')
     @endif
 @stop
 
@@ -124,4 +125,6 @@
             $("#e2").select2({minimumInputLength: 2});
         });
     </script>
+
+
 @stop

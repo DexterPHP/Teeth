@@ -1,6 +1,8 @@
     $(function(){
         var start ='';
         var Elemaent = [];
+        var Tooth = [];
+        var i = 0;
         $('.up,.down').on('click',function(e){
             var Classname = $(this).attr('data-title');
             var ElIndex = $(this).attr('data-index');
@@ -9,29 +11,21 @@
             if($(this).hasClass('selectTeeth')) {
                 // Remove Tooth from Array
                 $(this).removeClass('selectTeeth');
-                var result = $("#Teethes").val().split('|');
-                var newInput = '';
-                var i = 0;
-                for( i; i < result.length; i++){
-                    if(result[i] != Classname){ newInput += '|'+result[i]; }
-                }
-                $("#Teethes").val(newInput);
-
-
-
                 const index = Elemaent.indexOf(ElIndex);
+                const text = Tooth.indexOf(ElIndex);
                 if (index > -1) {
                     Elemaent.splice(index, 1);
+                    Tooth.splice(text, 1);
                 }
-
             }else {
                 // Add Tooth To Array
                 $(this).addClass('selectTeeth');
-                start +=  '|'+Classname;
-                $("#Teethes").val(start);
-                Elemaent.push(ElIndex);
+                Elemaent.push(ElIndex); // Add Tooth Index
+                Tooth.push(Classname); // Add Tooth Name
             }
-
+            if(Elemaent.length > 0){
+                $("#Teethes").val(Tooth);
+            }
 
         });
         // Open and Close Tooth Diagram
@@ -46,3 +40,6 @@ $(document).on( 'keydown', function ( e ) {
         $('#teeth').fadeOut(700);
     }
 });
+
+
+

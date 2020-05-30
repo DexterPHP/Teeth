@@ -37,14 +37,14 @@
                             <label for="inputName">أسم المريض </label>
                             <input type="text" name="username" value="{{$user->username}}" id="inputName" class="text-right form-control" required>
                         </div>
-                        <div class="form-group">
+                        {{--<div class="form-group">
                             <label for="inputName">أسم الأب </label>
                             <input type="text" name="user_middel" value="{{$user->user_middel}}" id="inputName" class="form-control text-right" required>
                         </div>
                         <div class="form-group">
                             <label for="inputName"> الكنية</label>
                             <input type="text" name="lastname" value="{{$user->lastname}}" id="inputName" class="form-control text-right" required>
-                        </div>
+                        </div>--}}
                         <div class="form-group">
                             <label for="inputDescription">معلومات</label>
                             <input type="text" name="notes" value="{{$user->notes}}" id="inputName" class="form-control text-right" required>
@@ -56,6 +56,11 @@
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
                             <input type="date" name="birthday" value="{{$user->birthday}}" id="inputClientCompany" class="form-control text-right" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">رقم الموبايل</label>
+                            <input type="tel" name="user_mobile" value="{{$user->user_mobile}}" id="inputEstimatedBudget" class="form-control text-right" required>
                         </div>
 
                     </div>
@@ -74,6 +79,20 @@
                     </div>
                     <div class="card-body text-right">
                         <div class="form-group">
+                            <label for="inputClientCompany">رقم بطاقة المريض  </label>
+                            <input type="text" value="{{$user->card_number}}" name="card_number" id="inputClientCompany" class="form-control" >
+                        </div>
+                        <div class="form-group">
+                            <label>الأمراض</label>
+                            <select class="form-control custom-select js-example-basic-multiple" name="diseases[]" multiple="multiple">
+
+                                @foreach($diseasei as $dis)
+                                    <option value="{{$dis->id}}">{{$dis->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="inputStatus">الجنس</label>
                             <select class="form-control custom-select" name="gender">
                                 <option  disabled>الرجاء الختيار</option>
@@ -83,11 +102,8 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="inputEstimatedBudget">رقم الموبايل</label>
-                            <input type="tel" name="user_mobile" value="{{$user->user_mobile}}" id="inputEstimatedBudget" class="form-control text-right" required>
-                        </div>
-                        <div class="form-group">
+
+                        {{--<div class="form-group">
                             <label for="inputStatus">هل يعاني من الضغط ؟</label>
                             <select class="form-control custom-select"  name="depress">
 
@@ -112,10 +128,16 @@
                                 <option {{ ($user->smoking) == 0 ? 'selected' : '' }} value="0" >لا</option>
                                 <option {{ ($user->smoking) == 1 ? 'selected' : '' }} value="1" >نعم</option>
                             </select>
-                        </div>
+                        </div>--}}
                         <div class="form-group">
                             <label for="inputClientCompany">صورة </label>
                             <input type="file" name="user_image" {{ ($user->user_image) == null ? 'require' : ''  }} id="inputClientCompany" class="form-control text-right" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputDescription">معلومات طبية</label>
+                            <textarea cols="10" rows="3"  name="medical_notes" class="form-control text-right"></textarea>
+
                         </div>
 
 
@@ -136,3 +158,12 @@
     </form>
     @endif
 @stop
+
+@section('js')
+    <script >
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+    @stop
+

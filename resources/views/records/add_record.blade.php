@@ -43,12 +43,6 @@
                             <input type="hidden" name="patient_id" value="{{$user_data->id}}" />
                         </div>
 
-                        <!--
-                        <div class="form-group">
-                            <label for="inputEstimatedBudget">السن   </label>
-                            <input type="text" readonly name="teeth_work_name"  id="Teethes" class="form-con" required>
-                        </div>
-                        -->
 
                         <div class="form-group">
                             <label for="inputEstimatedBudget">السن   </label>
@@ -61,7 +55,7 @@
                             <select class="form-control custom-select" name="working_teeth" id="e1">
                                 <option  disabled>الرجاء الأختيار</option>
                                 @foreach($Treatment as $Treatmente)
-                                    <option value="{{$Treatmente->id}}" >{{$Treatmente->title}} [ {{ $Treatmente->price  }} ]</option>
+                                    <option value="{{$Treatmente->title}}" >{{$Treatmente->title}} [ {{ $Treatmente->price  }} ]</option>
                                 @endforeach
                             </select>
                         </div>

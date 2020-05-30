@@ -52,7 +52,8 @@ class RolesSeeder extends Seeder
                 'search-record'     => true,
                 'search-diseases'   => true,
                 'search-transition' => true,
-                'search-treatments' => true
+                'search-treatments' => true,
+                'delete-user'       => true
             ]),
         ]);
         // Doctor Roles
@@ -95,7 +96,8 @@ class RolesSeeder extends Seeder
                 'search-record'     => true,
                 'search-diseases'   => true,
                 'search-transition' => true,
-                'search-treatments' => true
+                'search-treatments' => true,
+                'delete-user'       => true
             ]),
         ]);
 
@@ -139,7 +141,8 @@ class RolesSeeder extends Seeder
                 'search-record'     => false,
                 'search-diseases'   => true,
                 'search-transition' => false,
-                'search-treatments' => false
+                'search-treatments' => false,
+                'delete-user'       => true
             ]),
         ]);
 
@@ -183,7 +186,8 @@ class RolesSeeder extends Seeder
                 'search-record'     => true,
                 'search-diseases'   => false,
                 'search-transition' => true,
-                'search-treatments' => true
+                'search-treatments' => true,
+                'delete-user'       => false
             ]),
         ]);
     }

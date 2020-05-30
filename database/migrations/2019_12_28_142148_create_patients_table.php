@@ -19,13 +19,13 @@ class CreatePatientsTable extends Migration
              * */
             $table->bigIncrements('id')->autoIncrement();
             $table->string('username');
-            $table->string('lastname');
+            $table->string('lastname')->nullable();
             $table->date('birthday');
             $table->integer('user_age');
             $table->timestamp('user_login');
             $table->enum('gender',['ذكر', 'أنثى']);
             $table->string('user_mobile');
-            $table->string('user_middel');
+            $table->string('user_middel')->nullable();
             $table->tinyInteger('shoug');
             $table->tinyInteger('depress');
             $table->tinyInteger('smoking');
@@ -36,6 +36,7 @@ class CreatePatientsTable extends Migration
             $table->bigInteger('doctors_id')->unsigned();
             $table->string('user_image')->nullable();
             $table->integer('patient_box')->default(0);
+            $table->boolean('active')->default(1);
             $table->timestamps();
             $table->foreign('doctors_id')->references('id')->on('doctors')->onDelete('CASCADE');
         });
