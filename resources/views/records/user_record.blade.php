@@ -24,7 +24,8 @@
             <tbody>
             @foreach($data as $user)
                 <tr>
-                    <th><a href="../change/{{ $user->uuid }}" title="  تعديل "><i class="fas fa-edit"></i></a></th>
+                    <!-- <th><a href="../change/{{ $user->uuid }}" title="  تعديل "><i class="fas fa-edit"></i></a></th> -->
+                    <th><a href="#" title="  تعديل "><i class="fas fa-edit"></i> Soon </a></th>
                     <td class="text-danger"> {{$user->set_total}} </td>
                     <td class="text-success"> {{$user->set_payment}} </td>
                     <td> {{$user->teeth_work_name}} </td>

@@ -244,8 +244,84 @@ class RecordController extends Controller
      */
     public function update(Request $request)
     {
-        $record = Record::all();
-        return view('records.serach_record', ['All' => $record]);
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['edit-record']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                //$record = Record::all();
+                //return view('records.serach_record', ['All' => $record]);
+
+
+            }else if($user_is == 2){// Doctor
+                $Find_doc = Doctor::where('user_id',$User_data->id)->first(); // Get Doctor
+                $xXx = $Find_doc->with('Patiens')->first();
+                $xXx = $xXx->Patiens; // Get Pations of This Doctor
+                $pation =[];
+                foreach ($xXx as $Pation){
+                    $reco = Patients::find($Pation->id);
+                    $ny = Record::where('patient_id',$reco->id)->get();
+                    $The_Pation =[
+                        'pation'=> $Pation,
+                        'Records'=> $ny
+                    ];
+                    array_push($pation,$The_Pation);
+                }
+                return view('records.serach_record', ['All' => $pation]);
+
+            }else if($user_is == 3){// Reception
+                abort(401, 'Access denied - وصول غير مسموح ');
+            }else if($user_is == 4){ //Accounter
+                $Find_doc = Doctor::where('center_id',$User_data->center_id)->get(); // Get All Doctors
+
+                return view('records.doctor_records', ['All' => $Find_doc]);
+
+
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
+    }
+
+    public function showDoctorRecord(Request $request,$id){
+        $user_id = Auth::user()->id; // user login id
+        $User_data = User::find($user_id);
+        $rols = $User_data->hasAccess(['edit-record']);
+        if($rols){
+            $user_is = Auth::user()->user_type;
+            if($user_is == 1){// Super Admin
+                // Not needed
+            }else if($user_is == 2){// Doctor
+                // Not needed
+            }else if($user_is == 3){// Reception
+                // Not needed
+            }else if($user_is == 4){ //Accounter
+              $getDoctor = Doctor::where('uuid',$id)->first();
+              if(isset($getDoctor) && $getDoctor->center_id ==  $User_data->center_id){
+                  $xXx = Patients::where('doctors_id',$getDoctor->id)->get(); // Get Pations of This Doctor
+                  $pation =[];
+                  foreach ($xXx as $Pation){
+                      $reco = Patients::find($Pation->id);
+                      $ny = Record::where('patient_id',$reco->id)->get();
+                      $The_Pation =[
+                          'pation'=> $Pation,
+                          'Records'=> $ny
+                      ];
+                      array_push($pation,$The_Pation);
+                  }
+                  return view('records.Pation_for_Doctor', ['All' => $pation]);
+              }else{
+                  abort(401, 'Access denied - وصول غير مسموح ');
+              }
+            }
+
+        }else{
+            abort(401, 'Access denied - وصول غير مسموح ');
+        }
+
     }
 
     public function getuserrecord($id)

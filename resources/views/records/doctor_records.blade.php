@@ -4,7 +4,10 @@
 
 @section('content_header')
 
-    <h1 class="text-center">تعديل سجل مريض</h1>
+    <h1 class="text-center">
+        تعديل سجل مريض
+،    الرجاء اختيار الطبيب أولاً
+    </h1>
 @stop
 
 @section('content')
@@ -14,35 +17,29 @@
         <table id="example" class="table table-striped table-bordered display text-center" style="width:100%">
             <thead>
             <tr>
-                <th>السجلات</th>
-                <th>عدد السجلات</th>
+                <th>عرض المرضى والسجلات </th>
                 <th>رقم الهاتف</th>
-                <th>الطبيبب المشرف حالياً</th>
-                <th>اسم المريض كاملاً</th>
-                <th>رقم المريض الخاص</th>
+                <th>اسم الطبيب كاملاً</th>
+                <th>رقم مميز</th>
             </tr>
             </thead>
             <tbody>
             @foreach($All as $user)
                 <tr>
-                   <td><a href="user/{{ $user['pation']->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></td>
-                   <td>{{ count($user['Records']) }}</td>
-                   <td>{{ $user['pation']->user_mobile }}</td>
-                   <td>{{ (\App\Models\Doctor::where('id',$user['pation']->doctors_id)->first())->doctor_fname }}</td>
-                   <td>{{ $user['pation']->username}} </td>
-                   <td>{{ isset($user['pation']->card_number) ? $user['pation']->card_number : " لا يوجد " }} </td>
+                    <td><a href="doctor/{{ $user->uuid }}" title="عرض كافة لمرضى مع السجلات "><i class="fas fa-id-card"></i></a></td>
+                    <td>{{ $user->doctor_mobile }}</td>
+                    <td>{{ $user->doctor_fname }}</td>
+                    <td>{{ $user->id }}</td>
                 </tr>
             @endforeach
 
             </tbody>
             <tfoot>
             <tr>
-                <th>السجلات</th>
-                <th>عدد السجلات</th>
+                <th>عرض المرضى والسجلات </th>
                 <th>رقم الهاتف</th>
-                <th>الطبيبب المشرف حالياً</th>
-                <th>اسم المريض كاملاً</th>
-                <th>رقم المريض الخاص</th>
+                <th>اسم الطبيب كاملاً</th>
+                <th>رقم مميز</th>
             </tr>
             </tfoot>
         </table>

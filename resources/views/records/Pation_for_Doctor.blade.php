@@ -25,12 +25,12 @@
             <tbody>
             @foreach($All as $user)
                 <tr>
-                   <td><a href="user/{{ $user['pation']->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></td>
-                   <td>{{ count($user['Records']) }}</td>
-                   <td>{{ $user['pation']->user_mobile }}</td>
-                   <td>{{ (\App\Models\Doctor::where('id',$user['pation']->doctors_id)->first())->doctor_fname }}</td>
-                   <td>{{ $user['pation']->username}} </td>
-                   <td>{{ isset($user['pation']->card_number) ? $user['pation']->card_number : " لا يوجد " }} </td>
+                    <td><a href="../user/{{ $user['pation']->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></td>
+                    <td>{{ count($user['Records']) }}</td>
+                    <td>{{ $user['pation']->user_mobile }}</td>
+                    <td>{{ (\App\Models\Doctor::where('id',$user['pation']->doctors_id)->first())->doctor_fname }}</td>
+                    <td>{{ $user['pation']->username}} </td>
+                    <td>{{ isset($user['pation']->card_number) ? $user['pation']->card_number : " لا يوجد " }} </td>
                 </tr>
             @endforeach
 

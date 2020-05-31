@@ -146,6 +146,9 @@ Route::prefix('records')->group(function () {
 
     Route::get('view/{id}', 'RecordController@show');// Edit Page View
 
+    Route::get('doctor/{id}', 'RecordController@showDoctorRecord');// Edit Page View
+
+
     Route::get('/edit', 'RecordController@update'); // view  all user for select record
 
     Route::get('/user/{id}', 'RecordController@getuserrecord'); // update User info
