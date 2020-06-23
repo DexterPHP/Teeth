@@ -137,11 +137,18 @@
     @endif
 @stop
 
+@section('css')
+    <link type="text/css" rel="stylesheet" href="{{asset('css/Teethes.css')}}" />
+@stop
+
 @section('js')
-    <script>
+        <script>
         $(document).ready(function() {
             $("#e1").select2();
             $("#e2").select2({minimumInputLength: 2});
         });
+
+
     </script>
+    <script src="{{asset('js/Teethes.js')}}" type="text/javascript" ></script>
 @stop

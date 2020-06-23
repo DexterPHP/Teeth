@@ -109,6 +109,11 @@
         $(document).ready(function() {
             $("#e1").select2();
         });
+        @if(Session::has('Record'))
+        $(window).bind('beforeunload', function(){
+            return 'هل تريد المغادرة دون حفظ !! لن يتم حفظ السجل حتى تتم عملية الايدلع بشكل كامل';
+        });
+        @endif
     </script>
 @stop
 @endif

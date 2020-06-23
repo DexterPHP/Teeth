@@ -53,10 +53,12 @@
                             <label for="inputName">العمر</label>
                             <input type="number" name="user_age" value="{{$user->user_age}}" id="inputName" class="form-control text-right" required>
                         </div>
+                        <!--
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
                             <input type="date" name="birthday" value="{{$user->birthday}}" id="inputClientCompany" class="form-control text-right" required>
                         </div>
+                        -->
 
                         <div class="form-group">
                             <label for="inputEstimatedBudget">رقم الموبايل</label>

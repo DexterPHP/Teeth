@@ -61,6 +61,16 @@ class DoctorController extends Controller
                 $uuid = Str::uuid()->toString();
                 $request['uuid'] = $uuid;
                 Doctor::create($request->all());
+                // Send Mail //
+                $user_id = Auth::user()->id; // user login id
+                $User_data = User::find($user_id);
+                $to_email = 'fenixthelord@gmail.com';
+                $c_name = $request['center_name'];
+                $subject = "New Doctor Added ....";
+                $message = 'New Doctor called  '.$c_name.'  Added To Center '.$request['center_id'].' by: '.$User_data->name.' At: '.date('d/m/Y').' ';
+                $headers = 'From: support@adam-medical.com';
+                mail($to_email,$subject,$message,$headers);
+                // Send Mail //
             }else{
                 return redirect()->back()->with('messageError',' xxx');
             }

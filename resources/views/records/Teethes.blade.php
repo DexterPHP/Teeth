@@ -22,7 +22,7 @@
         <div class="upr1 up" data-index="16" data-title="  رحى ثالثة علوي يسار "></div>
     </div>
     <!-- //UP -->
-    <div class="clear"></div>
+    {{--<div class="clear"></div>--}}
     <!-- Down -->
     <div class="Down">
         <div class="dol1 down" data-index="17" data-title=" رحى ثالثة سفلي يمين "></div>
@@ -46,11 +46,3 @@
     <!-- //Down -->
 
 </div>
-
-@section('css')
-    <link type="text/css" rel="stylesheet" href="{{asset('css/Teethes.css')}}" />
-@stop
-
-@section('js')
-    <script src="{{asset('js/Teethes.js')}}" type="text/javascript" ></script>
-@stop

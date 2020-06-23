@@ -38,12 +38,26 @@ class PatientsController extends Controller
         if ($request->isMethod('post')) {
             $uuid = Str::uuid()->toString();
             $request['uuid'] = $uuid;
+            $request['birthday'] = date('Y-m-d');
             $search = Patients::where([
                 ['username',$request['username']],
                 ['lastname',$request['lastname']],
                 ['user_middel',$request['user_middel']],
                 ['doctors_id',$request['doctors_id']],
             ])->get();
+           $dises = count($request['diseases']);
+            if($dises > 0){
+                $des = '';
+                for ($i=1;$i <= $dises-1; $i++ ){
+                    $title = Diseases::where('id',
+                        $request->diseases[$i])
+                        ->first();
+                    $des .=  ' , '.$title->title;
+                    echo $title->title;
+                }
+                dd($des);
+
+            }
             $count = count($search);
             if($count < 1 ){
                 Patients::create($request->all());
@@ -240,14 +254,18 @@ class PatientsController extends Controller
     {
         $item = Patients::where('uuid',$id)->first();
         if ($request->isMethod('post')) {
+
             // Check if a profile image has been uploaded
             if ($request->has('user_image')) {
                 $imagex = $request->file('user_image')->store('/public');
                 $nn = Storage::url($imagex);
                 $ah =  asset($nn);
                 $item->user_image = $ah;
+                $request['user_image'] = $ah;
             }
-            $m = $item->save();
+            //$Find = Patients::where('uuid',$id)->first();
+            //dd($request->all(),$item);
+            $m = $item->update($request->all());
             return redirect()->back()->with('upDATE', ' ');
 
 

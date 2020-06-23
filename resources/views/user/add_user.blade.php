@@ -72,10 +72,12 @@
                             <label for="inputName">أسم الأب </label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_middel']}}@endif" name="user_middel" id="inputName" class="form-control text-right" required>
                         </div>--}}
+                        <!--
                         <div class="form-group">
                             <label for="inputClientCompany">تاريخ الميلاد</label>
                             <input type="date"  value="@if(session('_old_input')){{session('_old_input')['birthday']}}@endif" name="birthday" id="birthday" class="form-control" required>
                         </div>
+                        -->
                         <div class="form-group">
                             <label for="inputName">العمر</label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
@@ -83,7 +85,7 @@
 
                         <div class="form-group">
                             <label for="inputDescription">معلومات</label>
-                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['notes']}}@endif" name="notes" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['notes']}} @else لا يوجد @endif" name="notes" id="inputName" class="form-control text-right" required>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -154,7 +156,7 @@
 @stop
 
 @section('js')
-    <script>
+    <script>/*
         $(document).ready(function() { $("#e1").select2(); });
         function getAge(dateString) {
             var today = new Date();
@@ -179,7 +181,7 @@
                 var Newbirth = format(birth);
                 $('#age').val(getAge(Newbirth));
             });
-        });
+        });*/
     </script>
     <script >
         $(document).ready(function() {

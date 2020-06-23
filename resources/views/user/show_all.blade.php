@@ -18,7 +18,7 @@
              <th>تاريخ التسجيل</th>
              <th>ملاحظات</th>
              <th>رقم الهاتف</th>
-             <th>العمر والمواليد</th>
+             <th>العمر </th>
              <th>الأسم</th>
              <th>رقم البطاقة</th>
          </tr>
@@ -37,7 +37,7 @@
                  <td>{{ $user->created_at->format('Y/m/d') }}</td>
                  <td>{{ $user->notes }}</td>
                  <td>{{ $user->user_mobile }}</td>
-                 <td>{{ $user->user_age }}  - {{$user->birthday }}</td>
+                 <td>{{ $user->user_age }}  </td>
                  <td>{{ $user->username }} {{$user->user_middel }} {{ $user->lastname }}</td>
                  <td> @if(strlen($user->card_number)>0) {{$user->card_number}} @else  لا يوجد  @endif</td>
 
@@ -51,7 +51,7 @@
              <th>تاريخ التسجيل</th>
              <th>ملاحظات</th>
              <th>رقم الهاتف</th>
-             <th>العمر والمواليد</th>
+             <th>العمر </th>
              <th>الأسم</th>
              <th>رقم البطاقة</th>
          </tr>
