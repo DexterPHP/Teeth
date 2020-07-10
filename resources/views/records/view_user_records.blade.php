@@ -17,9 +17,10 @@
                 <th>الباقي</th>
                 <th>دفعة</th>
                 <th>المبلغ المطلوب</th>
+                <th> تاريخ الادخال</th>
                 <th>اسم العمل</th>
                 <th>السن</th>
-                <th>تاريخ الزيارة </th>
+                <th>تاريخ السجل</th>
                 <th>اسم الطبيب المشرف </th>
                 <th>رقم المريض الخاص</th>
             </tr>
@@ -31,9 +32,10 @@
                     <td class="text-danger">{{  $all =  $record->set_total - $record->set_payment }}<?php $count = $count+$all; ?></td>
                     <td class="text-success">{{ $all2 = $record->set_payment }}<?php $paid = $paid+$all2; ?></td>
                     <td class="text-warning">{{ $all3 = $record->set_total }}<?php $require = $require+$all3; ?></td>
+                    <td>{{ $record->record_time }}</td>
                     <td>{{ $record->working_teeth }}</td>
                     <td>{{ $record->teeth_work_name }}</td>
-                    <td>{{ $record->created_at->format('d/m/Y') }} || {{ $record->created_at->format('H:i:s') }} </td>
+                    <td>{{ $record->created_at->format('d/m/Y') }}  {{ $record->created_at->format('H:i:s') }} </td>
                     <td>{{ (App\Models\Doctor::find($record->doctor_id))->doctor_fname }} </td>
                     <td>{{ $record->id }} </td>
                 </tr>
@@ -46,9 +48,10 @@
                 <th>الباقي</th>
                 <th>دفعة</th>
                 <th>المبلغ المطلوب</th>
+                <th> تاريخ السجل</th>
                 <th>اسم العمل</th>
                 <th>السن</th>
-                <th>تاريخ الزيارة</th>
+                <th>تاريخ الإدخال</th>
                 <th>اسم الطبيب المشرف </th>
                 <th>رقم المريض الخاص</th>
             </tr>

@@ -45,21 +45,30 @@ class PatientsController extends Controller
                 ['user_middel',$request['user_middel']],
                 ['doctors_id',$request['doctors_id']],
             ])->get();
-           $dises = count($request['diseases']);
-            if($dises > 0){
-                $des = '';
-                for ($i=1;$i <= $dises-1; $i++ ){
-                    $title = Diseases::where('id',
-                        $request->diseases[$i])
-                        ->first();
-                    $des .=  ' , '.$title->title;
-                    echo $title->title;
-                }
-                dd($des);
+           if(isset($request['diseases']) and $request['diseases'] != null){
+               $dises = count($request['diseases']);
+               if($dises > 0){
+                   $des = array();
+                   for ($i=0;$i <= $dises-1; $i++ ){
+                       $title = Diseases::where('id',
+                           $request->diseases[$i])
+                           ->first();
+                       $val = [
+                           'id'=> $request->diseases[$i],
+                           'name' => $title->title
+                       ];
+                       $hi = array_push($des, $val );
 
-            }
+                   }
+                   $New_diseases= json_encode($des);
+               }
+           }else{
+               $New_diseases = Null;
+           }
             $count = count($search);
             if($count < 1 ){
+                $request['diseases'] = $New_diseases;
+                $request['user_mobile'] = $request['user_mobile'].' / '.$request['user_phone'];
                 Patients::create($request->all());
                 return redirect()->back()->with('message', ' ');
             }else{
@@ -75,21 +84,23 @@ class PatientsController extends Controller
                     $cc =  Doctor::all();
                     $arr['doctors'] = $cc;
                     $disease = Diseases::all();
-                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease,'ViewDoctors'=>1]);
                 }
                 elseif($user_is == 2){   // Doctor
-                    $cc = Doctor::where('user_id',$user_id)->get();
+                    $cc = Doctor::where('user_id',$user_id)->first();
                     $arr['doctors'] = $cc;
                     //$disease = Diseases::with('Center')->get();
                     $disease = Diseases::where('center_id',Auth::user()->center_id)->get();
-                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease,'ViewDoctors'=>0]);
                 }elseif($user_is == 3){// Reception
                     $center_id = Auth::user()->center_id;
                     $cc = Doctor::where('center_id',$center_id)->get();
                     $arr['doctors'] = $cc;
                     $disease = Diseases::where('center_id',Auth::user()->center_id)->get();
-                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease]);
+                    return view('user.add_user', ['doctors'=>$cc,'diseasei'=>$disease,'ViewDoctors'=>1]);
                     //return view('user.add_user', $arr);
+                }elseif($user_is == 4){// Accounter
+                    abort(401, 'Access denied - وصول غير مسموح ');
                 }
             }else{
                 abort(401, 'Access denied - وصول غير مسموح ');

@@ -33,7 +33,7 @@
                 @endforeach
             @else
                 <tr>
-                    <th><a href="in/{{ $center->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
+                    <th><a href="push/{{ $CenterData[0]->uuid }}" title="عرض كافة السجلات "><i class="fas fa-id-card"></i></a></th>
                     <th>{{ $center->center_name }}</th>
                     <td>
                         @foreach($CenterData as $doctors)

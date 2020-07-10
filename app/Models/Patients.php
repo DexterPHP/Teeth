@@ -23,7 +23,7 @@ class Patients extends Model
     protected $table='patients';
     protected $primaryKey="id";
     protected $fillable=[
-        'id','username','lastname','birthday','user_age','user_login','gender','user_mobile', 'user_middel','active',
+        'id','username','lastname','birthday','user_age','user_login','gender','user_mobile', 'user_middel','active','diseases',
         'shoug','depress','smoking', 'notes','medical_notes','doctors_id','user_image','card_number','uuid','patient_box'
     ];
 

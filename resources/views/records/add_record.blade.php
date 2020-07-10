@@ -25,6 +25,14 @@
                 رصيد المريض موجب وانت تدخل دفعة أكبر من المبلغ المطلوب
             </div>
         @endif
+
+        @if(session('dateError'))
+            <div class="alert alert-danger alert-dismissible text-right">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-eraser"></i>خطأ </h5>
+                تاريخ السجل أكبر من تاريخ اليوم
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-6">
                 <div class="card card-primary">
@@ -52,10 +60,10 @@
 
                         <div class="form-group">
                             <label for="inputEstimatedBudget">   اسم العمل [ نوع المعالجة] </label>
-                            <select class="form-control custom-select" name="working_teeth" id="e1">
+                            <select class="form-control custom-select working_teeth" name="working_teeth" id="e1">
                                 <option  disabled>الرجاء الأختيار</option>
                                 @foreach($Treatment as $Treatmente)
-                                    <option value="{{$Treatmente->title}}" >{{$Treatmente->title}} [ {{ $Treatmente->price  }} ]</option>
+                                    <option data-price="{{$Treatmente->price}}" value="{{$Treatmente->title}}" >{{$Treatmente->title}} [ {{ $Treatmente->price  }} ]</option>
                                 @endforeach
                             </select>
                         </div>
@@ -94,17 +102,22 @@
 
                         <div class="form-group">
                             <label for="inputName"> ملاحظة</label>
-                            <input type="text" name="set_note" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="لا يوجد" name="set_note" id="inputName" class="form-control text-right" required>
                         </div>
 
                         <div class="form-group">
                             <label for="inputName">المبلغ المطلوب</label>
-                            <input type="number"  name="set_total" id="inputName" min="0" class="form-control text-right" placeholder="0" required>
+                            <input type="number"  name="set_total" id="Total" min="0" class="form-control text-right" placeholder="0" required>
                         </div>
 
                         <div class="form-group">
                             <label for="inputName">الدفعة</label>
                             <input type="number" name="set_payment" min="0" id="inputName" class="form-control text-right" placeholder="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName">تاريخ السجل</label>
+                            <input type="date"  name="record_time" dir="ltr" id="record_time" class="form-control text-left"  required>
                         </div>
 
                         <div class="form-group">
@@ -142,13 +155,5 @@
 @stop
 
 @section('js')
-        <script>
-        $(document).ready(function() {
-            $("#e1").select2();
-            $("#e2").select2({minimumInputLength: 2});
-        });
-
-
-    </script>
     <script src="{{asset('js/Teethes.js')}}" type="text/javascript" ></script>
 @stop

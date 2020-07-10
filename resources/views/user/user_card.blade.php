@@ -79,30 +79,9 @@
                                     </div>
                                 </div>
 
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> اسم الأب </div>
 
-                                    <div class="profile-info-value">
 
-                                        <span>{{$user->user_middel }}</span>
-                                    </div>
-                                </div>
 
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> الكنية </div>
-
-                                    <div class="profile-info-value">
-                                        <span>{{ $user->lastname }}</span>
-                                    </div>
-                                </div>
-
-                                <div class="profile-info-row">
-                                    <div class="profile-info-name"> تاريخ الميلاد </div>
-
-                                    <div class="profile-info-value">
-                                        <span>{{$user->birthday}}</span>
-                                    </div>
-                                </div>
                                 <div class="profile-info-row">
                                     <div class="profile-info-name"> العمر  </div>
 

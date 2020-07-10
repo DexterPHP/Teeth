@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Center;
 use App\Models\Doctor;
 use App\User;
 use App\user\Patients;
@@ -41,7 +42,17 @@ class HomeController extends Controller
             }else if($user_is == 3){// Reception
                 return view('Home.Reception_index');
             }else if($user_is == 4){ //Accounter
-                return view('Home.Accounter_index');
+                $center_Doctor = $User_data->center_id;
+                $doctors = Doctor::where('center_id',$center_Doctor)->get();
+                $Patiens =0;
+                foreach ($doctors as $doc){
+                    $count = count($doc->Patiens);
+                    $Patiens = $count;
+                    break;
+
+                }
+                $Center = Center::find($center_Doctor);
+                return view('Home.Accounter_index',['doctors'=>$doctors,'center'=>$Center,'Patiens'=>$Patiens]);
             }
 
         }else{

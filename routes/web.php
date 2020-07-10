@@ -34,6 +34,10 @@ Route::prefix('diseases')->group(function () {
     Route::get('/add', 'DiseasesController@create'); // add User To System View
     Route::post('/add', 'DiseasesController@create'); // add User To System Post
 
+
+
+
+
 });
 
 // Patients
@@ -135,7 +139,7 @@ Route::prefix('lab')->group(function () {
 
 });
 
-// Recorde
+// Records
 Route::prefix('records')->group(function () {
 
     Route::get('/search', 'RecordController@index'); // View
@@ -250,6 +254,15 @@ Route::prefix('Treatment')->group(function () {
     Route::get('/Conversation/{id}', 'TreatmentController@Conversation')->name('update.item')->middleware('auth');
 
     Route::post('/Conversation/send', 'TreatmentController@Send')->name('update.item')->middleware('auth');
+
+    //
+    Route::get('/search', 'TreatmentController@search'); // Just View The Treatment
+
+    Route::get('/edit', 'TreatmentController@view'); //  View The Treatment To Edit
+
+    Route::get('/update/{id}', 'TreatmentController@update'); //  Update Treatment GET
+    Route::post('/update/{id}', 'TreatmentController@update'); //  Update Treatment POST
+
 
 });
 

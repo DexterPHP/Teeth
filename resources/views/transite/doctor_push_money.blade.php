@@ -64,7 +64,10 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">ليرة سورية</span>
                                 </div>
-                                <input type="text" value="@if(isset($record)){{trim($record['set_payment'])}}@endif" name="howchange" id="inputName" class="form-control text-right" required>
+
+
+
+                                <input @if(Session::has('Record')) readonly @endif type="text" value="@if(isset($record)){{trim($record['set_payment'])}}@endif" name="howchange" id="inputName" class="form-control text-right" required>
 
                                 <div class="input-group-append">
                                     <span class="input-group-text">.00</span>
@@ -74,7 +77,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputStatus">المريض</label>
-                            <select class="form-control custom-select" name="Patieon_id" id="e1">
+                            <select class="form-control custom-select" name="Patieon_id" id="e1" @if(Session::has('Record')) disabled @endif>
                                 <option  disabled>الرجاء الأختيار</option>
                                 <option value="">لا يوجد</option>
                                 @foreach($Patiens as $Patien)
@@ -86,7 +89,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputName">ملاحظة  </label>
-                            <input type="text" name="notes" id="inputName" class="form-control text-right" required>
+                            <input type="text" value="@if(Session::has('Record')) دفعة من سجل  @endif" name="notes" id="inputName" class="form-control text-right" required>
                         </div>
 
                     </div>
@@ -109,11 +112,7 @@
         $(document).ready(function() {
             $("#e1").select2();
         });
-        @if(Session::has('Record'))
-        $(window).bind('beforeunload', function(){
-            return 'هل تريد المغادرة دون حفظ !! لن يتم حفظ السجل حتى تتم عملية الايدلع بشكل كامل';
-        });
-        @endif
+
     </script>
 @stop
 @endif

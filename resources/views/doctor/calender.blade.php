@@ -28,10 +28,10 @@
                     <div class="card-body text-right">
                         <!-- the events -->
                         <div id="external-events">
-                            <div class="external-event bg-success ui-draggable ui-draggable-handle" style="position: relative;">جديدة</div>
-                            <div class="external-event bg-warning ui-draggable ui-draggable-handle" style="position: relative;">مراجعة</div>
-                            <div class="external-event bg-primary ui-draggable ui-draggable-handle" style="position: relative;">زيارة مريض</div>
-                            <div class="external-event bg-danger ui-draggable ui-draggable-handle" style="position: relative;">مستعجلة</div>
+                            <div class="listTable bg-success " style="position: relative;">مريض جديد</div>
+                            <div class="listTable bg-warning " style="position: relative;">مراجعة</div>
+                            <div class="listTable bg-primary" style="position: relative;">مريض محول</div>
+                            <div class="listTable bg-danger " style="position: relative;">مستعجلة</div>
 
                         </div>
                         <br/>
@@ -110,7 +110,7 @@
                 events: [
                     @foreach($datar as $dates)
                   {
-                        title          : '{{$dates->title}} {{isset($dates->patients_id) ? $dates->patients_id : ''}}',
+                        title          : '{{$dates->title}} {{isset($dates->patients_id) ?  \App\Models\Patients::find($dates->patients_id)->username : ''}}',
                         start          : new Date({{ date("Y", strtotime($dates->what_date))}}, {{date("n", strtotime($dates->what_date))-1 }}, {{date("d", strtotime($dates->what_date))}}, {{date("H", strtotime($dates->start_time))}},{{date("i", strtotime($dates->start_time))}}),
                         end            : new Date({{ date("Y", strtotime($dates->what_date))}}, {{date("n", strtotime($dates->what_date))-1 }}, {{date("d", strtotime($dates->what_date))}}, {{date("H", strtotime($dates->left_time))}},{{date("i", strtotime($dates->left_time))}}),
                         allDay         : false,

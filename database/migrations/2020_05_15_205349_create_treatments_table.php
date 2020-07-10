@@ -17,6 +17,7 @@ class CreateTreatmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->integer('price');
+            $table->string('uuid')->unique();
             $table->bigInteger('center_id')->unsigned();
             $table->foreign('center_id')->on('centers')->references('id')->onDelete(null);
             $table->timestamps();

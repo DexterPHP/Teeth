@@ -64,7 +64,7 @@
                         <div class="form-group">
                             <label for="inputName1">المريض   </label>
                             <select class="form-control custom-select"  name="patients_id" id="e1">
-                                <option  selected="">مريض غير مسجل  </option>
+                                <option selected="" value="">مريض غير مسجل  </option>
                                @if(isset($pations))
                                     @foreach($pations as $fom)
                                         <option value="{{$fom->id}}">{{$fom->username}} {{$fom->user_middel}} {{$fom->lastname}}</option>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label for="inputName4">وقت بداية الجلسة</label>
                             <div class='input-group date' id='datetimepicker3'>
-                                <input type='text' class="form-control" name="start_time" />
+                                <input type='text' class="form-control startTime" name="start_time" />
                                 <div class="input-group-append input-group-addon" data-target="#timepicker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-clock"></i></div>
                                 </div>
@@ -92,8 +92,8 @@
                         </div>
                         <div class="form-group">
                             <label for="inputName4">وقت انتهاء الجلسة</label>
-                            <div class='input-group date' id='datetimepicker3'>
-                                <input type='text' class="form-control" name="left_time" />
+                            <div class='input-group date' id='datetimepicker2'>
+                                <input type='text' class="form-control EndTime" name="left_time" />
                                 <div class="input-group-append input-group-addon" data-target="#timepicker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="far fa-clock"></i></div>
                                 </div>
@@ -102,8 +102,8 @@
                         <div class="form-group text-right">
                             <label for="inputStatus">الأولوية</label>
                             <select class="form-control custom-select"  name="priority">
-                                <option  value="0" selected="">جديدة</option>
-                                <option value="1">زيارة مريض</option>
+                                <option  value="0" selected="">مريض جديد</option>
+                                <option value="1"> مريض محول</option>
                                 <option value="2">مراجعة</option>
                                 <option value="3">مستعجلة</option>
                             </select>
@@ -132,7 +132,7 @@
     @endif
 @stop
 @section('css')
-    <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{asset('css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
 @endsection
 @section('js')
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -149,9 +149,36 @@
             $("#e1").select2();
             $('#datetimepicker3,#timepicker').datetimepicker({
                 format: 'LT'
+            }).on('dp.change', function (e) {
+                var SelectedValue = e.date.format('h:mm');
+                //var ampm = e.date.format('H') < 12? 'AM' : 'PM';
+                var test = e.date.format('A');
+                result=addMinutesToTime(SelectedValue,30,test);
+                //console.log(SelectedValue,' => ',result);
+                $('.EndTime').val(result);
             });
-        });
+            $('#datetimepicker2').datetimepicker({
+                format: 'LT'
+            });
 
+
+            // Function Add Time
+            function addMinutesToTime(time, minsAdd,test) {
+                function z(n){
+                    return (n<10? '0':'') + n;
+                };
+                var bits = time.split(':');
+                var mins = bits[0]*60 + +bits[1] + +minsAdd;
+                return z(mins%(24*60)/60 | 0) + ':' + z(mins%60)+ ' ' + test ;
+
+
+            }
+
+
+
+
+
+        });
 
     </script>
     <script src="{{asset('js/select2.min.js')}}"></script>

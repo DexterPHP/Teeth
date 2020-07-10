@@ -25,9 +25,11 @@
                 إن هذا المريض لديه مسجل من قبل
             </div>
         @endif
+
         <div class="row">
             <div class="col-md-12 text-right">
                 <div class="card card-primary">
+                    @if(isset($ViewDoctors) and $ViewDoctors == true)
                     <div class="card-header">
                         <h3 class="card-title float-right"> الطبيب</h3>
 
@@ -45,9 +47,12 @@
                             </select>
                         </div>
                     </div>
-
+                        @else
+                        <input type="hidden" name="doctors_id" value="{{$doctors->id}}" />
+                       @endif
                 </div>
         </div>
+
 
 
             <div class="col-md-6">
@@ -80,13 +85,20 @@
                         -->
                         <div class="form-group">
                             <label for="inputName">العمر</label>
-                            <input type="text" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
+                            <input type="text" autocomplete="off" value="@if(session('_old_input')){{session('_old_input')['user_age']}}@endif" min="3" name="user_age" id="age" class="form-control text-right" required>
                         </div>
 
                         <div class="form-group">
                             <label for="inputDescription">معلومات</label>
                             <input type="text" value="@if(session('_old_input')){{session('_old_input')['notes']}} @else لا يوجد @endif" name="notes" id="inputName" class="form-control text-right" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="inputDescription">معلومات طبية</label>
+                            <textarea cols="10" rows="5" placeholder="هل يوجد عمل جراحي سابق؟"  name="medical_notes" class="form-control text-right"></textarea>
+
+                        </div>
+
                     </div>
                     <!-- /.card-body -->
                 </div>
@@ -116,8 +128,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="inputEstimatedBudget">رقم هاتف المريض</label>
-                            <input type="tel" value="@if(session('_old_input')){{session('_old_input')['user_mobile']}}@endif" name="user_mobile" id="inputEstimatedBudget" class="form-control" required>
+                            <label for="inputEstimatedBudget">رقم هاتف المريض
+                            ( يفضل وجود رقم واتساب)
+                            </label>
+                            <input type="tel"  value="@if(session('_old_input')){{session('_old_input')['user_mobile']}}@endif" name="user_mobile" id="inputEstimatedBudget" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputEstimatedBudget">رقم هاتف آخر</label>
+                            <input type="tel" value="@if(session('_old_input')){{session('_old_input')['user_phone']}}@endif" name="user_phone" id="inputEstimatedBudget" class="form-control" >
                         </div>
 
                                 <input type="hidden" name="depress" value="0" />
@@ -131,11 +150,6 @@
                                     <option value="{{$dis->id}}">{{$dis->title}}</option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDescription">معلومات طبية</label>
-                            <textarea cols="10" rows="3"  name="medical_notes" class="form-control text-right"></textarea>
-
                         </div>
 
 

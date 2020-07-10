@@ -24,6 +24,7 @@ class CreateRecordsTable extends Migration
             $table->text('set_note')->nullable();
             $table->string('teeth_work_name')->nullable();
             $table->string('working_teeth')->nullable();
+            $table->timestamp('record_time')->default(date('Y/m/d H:s:i'));
             $table->string('uuid')->unique();
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients');

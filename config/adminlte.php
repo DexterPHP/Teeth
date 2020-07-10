@@ -210,7 +210,7 @@ return [
         [
             'text'    => 'المواعيد',
             'icon'    => 'fas fa-tasks',
-            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>true ],
+            'permission'  => [ 1=>true, 2=>true, 3=>true, 4=>false ],
             'submenu' => [
                 [
                     'text' => 'إضافة موعد',
@@ -245,7 +245,7 @@ return [
                 [
                     'text' => 'تعديل معلومات سجل',
                     'url'  => '/records/edit',
-                    'icon'    => 'fas fa-folder-minus','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                    'icon'    => 'fas fa-folder-minus','permission'  => [ 1=>true, 2=>false, 3=>false, 4=>false ]
                 ],
             ],
         ],
@@ -391,7 +391,6 @@ return [
                     'icon'    => 'fas fa-teeth-open','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
 
                 ],
-
                 [
                     'text' => 'عرض المعالجات',
                     'url'  => '/Treatment/search',
@@ -400,7 +399,7 @@ return [
                 [
                     'text' => 'تعديل',
                     'url'  => '/Treatment/edit',
-                    'icon'    => 'fa fa-stethoscope','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>false ]
+                    'icon'    => 'fa fa-stethoscope','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
                 ],
             ],
         ],

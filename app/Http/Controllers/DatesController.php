@@ -54,6 +54,7 @@ class DatesController extends Controller
 
 
     public function addMetting(Request $request,$id){
+
         if($request->isMethod('post')){
             $data = $request->all();
             $start_time = date('H:i', strtotime($data['start_time']));

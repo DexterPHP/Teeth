@@ -596,10 +596,12 @@ class TransitionsController extends Controller
                             'set_note' => $record_session['set_note'],
                             'teeth_work_name' => $record_session['teeth_work_name'],
                             'working_teeth' => $record_session['working_teeth'],
+                            'record_time' => $record_session['record_time'],
                             'uuid' => $record_session['uuid']
                         ];
                         $cread = Record::create($record_data);
                         Session::forget('Record');
+
                     }
                     return redirect()->back()->with('Greate',' ');
                 }catch (\Exception $e) {

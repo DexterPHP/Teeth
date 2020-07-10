@@ -69,39 +69,38 @@ class RecordController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function add(Request $request, $id)
     {
         if ($request->isMethod('post')) {
-            $uuid = Str::uuid()->toString();
-            $request['uuid'] = $uuid;
-            $Pation_data = Patients::where('uuid', $id)->first();
-            $patient_box = $Pation_data->patient_box;   // Box
-            $total = $request['set_total']; // All
-            $rest = $request['set_payment']; // Part
-            /*  $difrn = $total - $rest;
-              if($total < $rest and $patient_box >= 0){
-                  return redirect()->back()->with('totalError',' ');
+            if($request['record_time'] <= date('Y/m/d H:s:i')){
+                $uuid = Str::uuid()->toString();
+                $request['uuid'] = $uuid;
+                $Pation_data = Patients::where('uuid', $id)->first();
+                $patient_box = $Pation_data->patient_box;   // Box
+                $total = $request['set_total']; // All
+                $rest = $request['set_phppayment']; // Part
+                /*  $difrn = $total - $rest;
+                  if($total < $rest and $patient_box >= 0){
+                      return redirect()->back()->with('totalError',' ');
 
-              }
-              $patient_box_new  = ($Pation_data->patient_box) + $difrn;
+                  }
+                  $patient_box_new  = ($Pation_data->patient_box) + $difrn;
 
-              if(isset($cread)){
-                  $update_pation = $Pation_data->update(['patient_box'=> $patient_box_new]);
-              }*/
-            $doc_uuid = Doctor::find($request['doctor_id'])->uuid;
-            $request['dotor_uuid'] = $doc_uuid;
-            $request['Pation_uuid'] = $id;
-            Session::put('Record', $request->all());
-            //$cread = Record::create($request->all());
-            //return redirect()->back()->with('message', ' ');
-            return redirect()->route('add_money', $doc_uuid);
+                  if(isset($cread)){
+                      $update_pation = $Pation_data->update(['patient_box'=> $patient_box_new]);
+                  }*/
+                $doc_uuid = Doctor::find($request['doctor_id'])->uuid;
+                $request['dotor_uuid'] = $doc_uuid;
+                $request['Pation_uuid'] = $id;
+                Session::put('Record', $request->all());
+                //$cread = Record::create($request->all());
+                //return redirect()->back()->with('message', ' ');
+                return redirect()->route('add_money', $doc_uuid);
+            }else{
+                return redirect()->back()->with('dateError',' ');
+            }
+
 
 
         } else {

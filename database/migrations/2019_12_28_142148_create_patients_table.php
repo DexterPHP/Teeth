@@ -26,9 +26,10 @@ class CreatePatientsTable extends Migration
             $table->enum('gender',['ذكر', 'أنثى']);
             $table->string('user_mobile');
             $table->string('user_middel')->nullable();
-            $table->tinyInteger('shoug');
-            $table->tinyInteger('depress');
-            $table->tinyInteger('smoking');
+            $table->tinyInteger('shoug')->nullable();
+            $table->tinyInteger('depress')->nullable();
+            $table->tinyInteger('smoking')->nullable();
+            $table->text('diseases')->nullable();
             $table->mediumText('notes');
             $table->mediumText('medical_notes')->nullable();
             $table->string('uuid')->unique();

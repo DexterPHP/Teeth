@@ -28,8 +28,9 @@
                     <th><a href="#" title="  تعديل "><i class="fas fa-edit"></i> Soon </a></th>
                     <td class="text-danger"> {{$user->set_total}} </td>
                     <td class="text-success"> {{$user->set_payment}} </td>
-                    <td> {{$user->teeth_work_name}} </td>
+
                     <td> {{$user->working_teeth}} </td>
+                        <td> {{$user->teeth_work_name}} </td>
                     <td>{{ ($user->created_at)->format('d/m/Y') }} ||  {{($user->created_at)->format('h:i A')}}</td>
                     <td>{{ (\App\Models\Doctor::where('id',$user->doctor_id)->first())->doctor_fname }} </td>
                     <td>{{ isset($user->card_number) ? $user->card_number : " لا يوجد " }} </td>
