@@ -19526,3 +19526,242 @@ Did you mean one of these?
 #43 C:\\xampp\\htdocs\\Teeth\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #44 {main}
 "} 
+[2020-07-10 22:33:46] local.ERROR: Target class [Fruitcake\Cors\HandleCors] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [Fruitcake\\Cors\\HandleCors] does not exist. at C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:805)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(681): Illuminate\\Container\\Container->build('Fruitcake\\\\Cors\\\\...')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(785): Illuminate\\Container\\Container->resolve('Fruitcake\\\\Cors\\\\...', Array, true)
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(629): Illuminate\\Foundation\\Application->resolve('Fruitcake\\\\Cors\\\\...', Array)
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(770): Illuminate\\Container\\Container->make('Fruitcake\\\\Cors\\\\...', Array)
+#4 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(160): Illuminate\\Foundation\\Application->make('Fruitcake\\\\Cors\\\\...')
+#5 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#6 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#7 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#8 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#9 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#10 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#11 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#12 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#13 C:\\xampp\\htdocs\\Teeth\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#14 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#15 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(105): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#16 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#17 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(110): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#18 C:\\xampp\\htdocs\\Teeth\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#19 C:\\xampp\\htdocs\\Teeth\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#20 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class Fruitcake\\Cors\\HandleCors does not exist at C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:803)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(803): ReflectionClass->__construct('Fruitcake\\\\Cors\\\\...')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(681): Illuminate\\Container\\Container->build('Fruitcake\\\\Cors\\\\...')
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(785): Illuminate\\Container\\Container->resolve('Fruitcake\\\\Cors\\\\...', Array, true)
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(629): Illuminate\\Foundation\\Application->resolve('Fruitcake\\\\Cors\\\\...', Array)
+#4 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(770): Illuminate\\Container\\Container->make('Fruitcake\\\\Cors\\\\...', Array)
+#5 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(160): Illuminate\\Foundation\\Application->make('Fruitcake\\\\Cors\\\\...')
+#6 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#7 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#8 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#9 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#10 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#11 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#12 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode.php(63): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#13 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#14 C:\\xampp\\htdocs\\Teeth\\vendor\\fideloper\\proxy\\src\\TrustProxies.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#15 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(171): Fideloper\\Proxy\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#16 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(105): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#17 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(145): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#18 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(110): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#19 C:\\xampp\\htdocs\\Teeth\\public\\index.php(55): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#20 C:\\xampp\\htdocs\\Teeth\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#21 {main}
+"} 
+[2020-07-10 22:33:47] local.ERROR: Target class [Fruitcake\Cors\HandleCors] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [Fruitcake\\Cors\\HandleCors] does not exist. at C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:805)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(681): Illuminate\\Container\\Container->build('Fruitcake\\\\Cors\\\\...')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(785): Illuminate\\Container\\Container->resolve('Fruitcake\\\\Cors\\\\...', Array, true)
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(629): Illuminate\\Foundation\\Application->resolve('Fruitcake\\\\Cors\\\\...', Array)
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(770): Illuminate\\Container\\Container->make('Fruitcake\\\\Cors\\\\...', Array)
+#4 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(209): Illuminate\\Foundation\\Application->make('Fruitcake\\\\Cors\\\\...')
+#5 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(183): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
+#6 C:\\xampp\\htdocs\\Teeth\\public\\index.php(60): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
+#7 C:\\xampp\\htdocs\\Teeth\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#8 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class Fruitcake\\Cors\\HandleCors does not exist at C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:803)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(803): ReflectionClass->__construct('Fruitcake\\\\Cors\\\\...')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(681): Illuminate\\Container\\Container->build('Fruitcake\\\\Cors\\\\...')
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(785): Illuminate\\Container\\Container->resolve('Fruitcake\\\\Cors\\\\...', Array, true)
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(629): Illuminate\\Foundation\\Application->resolve('Fruitcake\\\\Cors\\\\...', Array)
+#4 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(770): Illuminate\\Container\\Container->make('Fruitcake\\\\Cors\\\\...', Array)
+#5 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(209): Illuminate\\Foundation\\Application->make('Fruitcake\\\\Cors\\\\...')
+#6 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(183): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
+#7 C:\\xampp\\htdocs\\Teeth\\public\\index.php(60): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\Response))
+#8 C:\\xampp\\htdocs\\Teeth\\server.php(21): require_once('C:\\\\xampp\\\\htdocs...')
+#9 {main}
+"} 
+[2020-07-16 13:10:43] local.ERROR: Command "make:modal" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:modal\" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test at C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(235): Symfony\\Component\\Console\\Application->find('make:modal')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(147): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(93): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\Teeth\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2020-07-16 13:10:55] local.ERROR: Command "make:modle" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:modle\" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test at C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(235): Symfony\\Component\\Console\\Application->find('make:modle')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(147): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(93): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\Teeth\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2020-07-16 13:11:35] local.ERROR: Command "make:modle" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"make:modle\" is not defined.
+
+Did you mean one of these?
+    make:channel
+    make:command
+    make:controller
+    make:event
+    make:exception
+    make:factory
+    make:job
+    make:listener
+    make:mail
+    make:middleware
+    make:migration
+    make:model
+    make:notification
+    make:observer
+    make:policy
+    make:provider
+    make:request
+    make:resource
+    make:rule
+    make:seeder
+    make:test at C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(235): Symfony\\Component\\Console\\Application->find('make:modle')
+#1 C:\\xampp\\htdocs\\Teeth\\vendor\\symfony\\console\\Application.php(147): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(93): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 C:\\xampp\\htdocs\\Teeth\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(131): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 C:\\xampp\\htdocs\\Teeth\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 

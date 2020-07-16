@@ -403,6 +403,29 @@ return [
                 ],
             ],
         ],
+        [
+            'text'    => 'الراشيتات',
+            'icon'    => 'fas fa-tooth',
+            'permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ],
+            'submenu' => [
+                [
+                    'text' => 'إضافة',
+                    'url'  => '/Prescription/add',
+                    'icon'    => 'fas fa-teeth-open','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+
+                ],
+                [
+                    'text' => 'عرض المعالجات',
+                    'url'  => '/Prescription/search',
+                    'icon'    => 'fa fa-teeth','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+                [
+                    'text' => 'تعديل',
+                    'url'  => '/Prescription/edit',
+                    'icon'    => 'fa fa-stethoscope','permission'  => [ 1=>true, 2=>true, 3=>false, 4=>true ]
+                ],
+            ],
+        ],
     ],
 
     /*
